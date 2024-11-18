@@ -4,12 +4,19 @@
 #Import files
 import constants #constants
     #input configuration
+        #Dimensions of flanges
+        #Fastener pattern
+        #Fastener type
+
 
 #Input parameters
-    #put those here
+    #Load case
 
 #Functions
-    #define those here
+    #Check appendixes for what to do 
+    #Various bearing things
+    #Pull through failure
+    #Thermal stress check
 
 #Main code loop
     #do math or smth
