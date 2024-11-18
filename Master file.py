@@ -1,4 +1,2 @@
-#This is the master file FutureWarning
-x = 14
-
-hello = 1
+#This is the master file 
+#Please do not edit this unless you're doing something useful
