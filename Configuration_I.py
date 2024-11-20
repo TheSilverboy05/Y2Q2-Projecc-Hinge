@@ -10,6 +10,9 @@ t3      = 2     * 10**(-3)      #[m]        Thickness
 Eskin   = 72    * 10**(9)       #[Pa]       Young Modulus
 Gskin   = 27    * 10**(9)       #[Pa]       Shear Modulus
 
+# Lug Distance
+H       = 500   * 10**(-3)      #[m]        Distance between the lugs
+
 # Back Plate:
 t2      = 5     * 10**(-3)      #[m]        Thickness
 L       = 250   * 10**(-3)      #[m]        Lenght of the back plate
