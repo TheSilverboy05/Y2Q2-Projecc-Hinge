@@ -1,4 +1,4 @@
-def PullThrough(W,D,t,F_ty,F_y,F_z):
+def FlangeFailure(W,D,t,F_ty,F_y,F_z):
 
     #These need to be redone
     K_ty = 1 
