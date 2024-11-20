@@ -2,6 +2,8 @@
 n = 4
 Fx=5
 Fy=5
+D_2=1
+t_2=1
 
 F_xbolt=Fx/n
 F_ybolt=Fy/n
