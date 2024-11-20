@@ -1,6 +1,10 @@
 # Configuration template
 ConfigName = "Configuration I"
 
+# In this file, you can update the parameters that define the geometry and the materials of the lug we're designing.
+# Please make a copy of this template when adjusting and give it a new name. You can test your configuration
+# by changing the import statement in the Master file.
+
 # Spacecraft skin:
 t3      = 2     * 10**(-3)      #[m]        Thickness
 Eskin   = 72    * 10**(9)       #[Pa]       Young Modulus
