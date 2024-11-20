@@ -1,4 +1,5 @@
 # Configuration template
+ConfigName = "Configuration I"
 
 # Spacecraft skin:
 t3      = 2     * 10**(-3)      #[m]        Thickness
@@ -21,3 +22,6 @@ D1      = 30    * 10**(-3)      #[m]        Diameter of the pin hole
 h       = 50    * 10**(-3)      #[m]        Inner dimension between two flanges
 N       = 2                     #           Number of flanges
 
+# Material lug
+E       = 72    * 10**(9)       #[Pa]       Young Modulus
+G       = 27    * 10**(9)       #[Pa]       Shear Modulus
