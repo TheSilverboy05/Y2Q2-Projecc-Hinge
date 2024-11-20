@@ -19,6 +19,7 @@ import Configuration_I as config
     #Load case
 
 #Functions
+
     #Check appendixes for what to do 
     #Various bearing things
     #Pull through failure
@@ -26,9 +27,6 @@ import Configuration_I as config
 
 #Main code loop
     #do math or smth
-
-#Testing loop
-print(cst.g0)
 
 
 #Outputs
