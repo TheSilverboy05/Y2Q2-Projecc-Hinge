@@ -9,27 +9,5 @@ import FailureModeFunctions as FM
 import constants as cst
 import Configuration_I as config
 
+# Perform checks
 
-    #Dimensions of flanges
-    #Fastener pattern
-    #Fastener type
-
-
-#Input parameters
-    #Load case
-
-#Functions
-    #Check appendixes for what to do 
-    #Various bearing things
-    #Pull through failure
-    #Thermal stress check
-
-#Main code loop
-    #do math or smth
-
-#Testing loop
-print(cst.g0)
-
-
-#Outputs
-    #Yippee
