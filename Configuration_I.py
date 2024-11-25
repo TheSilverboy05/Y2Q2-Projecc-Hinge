@@ -5,13 +5,19 @@ ConfigName = "Configuration I"
 # Please make a copy of this template when adjusting and give it a new name. You can test your configuration
 # by changing the import statement in the Master file.
 
+# Main forces on the 
+Fx      = 100   * 10**(0)       #[N]        Main load in x-direction
+Fy      = 100   * 10**(0)       #[N]        Main load in y-direction
+Fz      = 100   * 10**(0)       #[N]        Main load in z-direction
+
 # Spacecraft skin:
 t3      = 2     * 10**(-3)      #[m]        Thickness
 Eskin   = 72    * 10**(9)       #[Pa]       Young Modulus
 Gskin   = 27    * 10**(9)       #[Pa]       Shear Modulus
 
-# Lug Distance
+# Lug Distance & Solar panel dimension
 H       = 500   * 10**(-3)      #[m]        Distance between the lugs
+W       = 1200  * 10**(-3)      #[m]        Length of the deployed solar panel
 
 # Back Plate:
 t2      = 5     * 10**(-3)      #[m]        Thickness

@@ -2,7 +2,7 @@
 #Please do not edit this unless you're doing something useful
 import numpy as np
 import math
-import matplotlip.pyplot as plt
+import matplotlib.pyplot as plt
 import FailureModeFunctions as FM
 
 #Import files
@@ -11,3 +11,4 @@ import Configuration_I as config
 
 # Perform checks
 
+Forces = Forces()

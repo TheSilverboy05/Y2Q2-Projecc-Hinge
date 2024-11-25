@@ -5,7 +5,7 @@ def Forces(Fx, Fy, Fz, H, W):
     Fy = Force in y-direction
     Fz = Force in z-direction
     H  = Height of the solar panel in z-direction
-    W  = length of the solar panel
+    W  = length of the solar panel in y-direction
     """
     #Forces
     Az = -Fz/2
