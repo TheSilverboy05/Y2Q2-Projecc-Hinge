@@ -5,10 +5,15 @@ ConfigName = "Configuration I"
 # Please make a copy of this template when adjusting and give it a new name. You can test your configuration
 # by changing the import statement in the Master file.
 
-# Main forces on the 
+# Main forces on each lug
 Fx      = 100   * 10**(0)       #[N]        Main load in x-direction
 Fy      = 100   * 10**(0)       #[N]        Main load in y-direction
 Fz      = 100   * 10**(0)       #[N]        Main load in z-direction
+
+# Main Moments on each lug
+Mx      = 0
+My      = 2 #plugin value
+Mz      = 2 #plugin value
 
 # Spacecraft skin:
 t3      = 2     * 10**(-3)      #[m]        Thickness
