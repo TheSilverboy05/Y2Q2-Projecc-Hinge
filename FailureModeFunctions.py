@@ -68,3 +68,19 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     return SF
 
 
+
+
+def BearingFailure( D_2, t_2, n)
+    
+    F_xbolt=Fx/n + My/(n*x)
+    F_zbolt=Fz/n + My/(n*z)
+
+    P = (F_xbolt**2+F_zbolt**2)**0.5
+
+    sigma=P/(D_2*t_2)    #max stress experienced by the bolt
+    #then compare sigma to the one of the material max strenght and see how to lighten up the hinge
+
+    sigmamaterial=1 #to be completed
+
+    return sigma/sigmamaterial
+
