@@ -48,6 +48,7 @@ G       = 27    * 10**(9)       #[Pa]       Shear Modulus
 #Materials Bolts
 
 
+
 class Material:
     def __init__(self) -> None:
         
