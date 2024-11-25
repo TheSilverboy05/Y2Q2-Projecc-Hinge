@@ -32,5 +32,3 @@ N       = 2                     #           Number of flanges
 # Material lug
 E       = 72    * 10**(9)       #[Pa]       Young Modulus
 G       = 27    * 10**(9)       #[Pa]       Shear Modulus
-
-print("The code runs")
