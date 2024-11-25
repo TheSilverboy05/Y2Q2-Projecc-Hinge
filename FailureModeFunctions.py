@@ -24,7 +24,10 @@ def Forces(Fx, Fy, Fz, H, W):
     M_Az = (Fx * W)/4
     M_Bz = (Fx * W)/4
 
-    return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz]
+    My = max(abs(M_Ay), abs(M_By))
+    Mz = max(abs(M_Az), abs(M_Bz))
+
+    return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz]
 
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
