@@ -1,3 +1,5 @@
+import math
+
 def Forces(Fx, Fy, Fz, H, W):
     """
     Returns a list [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz]
@@ -25,24 +27,40 @@ def Forces(Fx, Fy, Fz, H, W):
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz]
 
 
-def FlangeFailure(W,D,t,F_ty,F_y,F_z):
-
-    #These need to be redone
-    K_ty = 1 
-    K_t = 1
-    K_bru = 1
-    
+def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_br = D*t
     A_t = ((W-D)/t)
 
-    P_ty = K_ty*A_br*F_ty
+    # K_bry, fig. D1.14 in Bruhn, taken max curve with out of bounds if the relevant curve diverges
+    if (0.5*W)/D < 3.3*(D/t)+0.57:
+       K_bry = -1.25*(D/t)-0.998*(D/t)^2+0.11*(D/t)^3
+    else:
+        print("e/D conbined with D/t is out of bounds")
+        K_bry = 100000000
+
+    # K_ty, fig. D1.15 in Bruhn, only curve 3
+    A_2 = 0.5*(W-D)
+    A_1 = A_2+0.5*D-0.5*D*math.cos(45*(math.pi/180))
+    A_av = 6/((a/A_1)+(2/A_2))
+    K_ty = -4.72*10^(-3)+1/39(A_av/A_br)-0.341(A_av/A_br)^2
+
+    # K_t, fig. D1.12 in Bruhn, only linear part otherwise out of bounds
+    if W/D <= 2.9: 
+        K_t = (W/D)*(-0.08/1.4)+1.0857
+    else:
+        K_t = 100000000
+        print("W/D out of bounds (over 2.9)")
+
+    # transverse
+    P_ty = K_ty*A_br*S_ty
     R_tr = F_z/P_ty
 
-    P_u = K_t*F_ty*A_t
-    P_bru = K_bru*F_ty*A_br
+    # axial
+    P_u = K_t*S_ty*A_t
+    P_bry = K_bry*S_ty*A_br
 
-    if P_u > P_bru:
-        R_a = Fy/P_bru
+    if P_u > P_bry:
+        R_a = F_y/P_bry
     else:
         R_a = F_y/P_u
 
