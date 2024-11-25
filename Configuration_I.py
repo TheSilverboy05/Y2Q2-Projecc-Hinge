@@ -43,3 +43,16 @@ N       = 2                     #           Number of flanges
 # Material lug
 E       = 72    * 10**(9)       #[Pa]       Young Modulus
 G       = 27    * 10**(9)       #[Pa]       Shear Modulus
+
+
+#Materials Bolts
+
+
+class Material:
+    def __init__(self) -> None:
+        
+    def add_bolt(self, size, ultimate_strenght)
+
+    def getboltstrenght(self, size)
+
+
