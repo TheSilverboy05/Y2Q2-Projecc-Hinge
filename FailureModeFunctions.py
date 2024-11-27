@@ -1,6 +1,8 @@
 import math
 
+
 def Forces(Fx, Fy, Fz, H, W):
+    # Author: Seppe
     """
     Returns a list [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz]
     Fx = Force in x-direction
