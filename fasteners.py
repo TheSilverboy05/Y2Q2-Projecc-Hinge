@@ -1,4 +1,6 @@
-import Configuration_I. as c
+import Configuration_I as c
+
+
 Fx=c.Fx
 Fz=c.Fz
 My=c.My
