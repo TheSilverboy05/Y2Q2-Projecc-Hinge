@@ -1,9 +1,5 @@
 import math
-<<<<<<< HEAD
 import Configuration_I as c
-=======
-import numpy as np
->>>>>>> d94f0056f5fd09b445bb3e65f3bae810fc3982b4
 
 #
 
@@ -47,13 +43,6 @@ def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
         # output in array
     
 
-<<<<<<< HEAD
-
-
-
-
-
-=======
     # Forces due to Fy
         # output in array
     Fylist =[]
@@ -71,7 +60,6 @@ def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
     
     return(Array)
 
->>>>>>> d94f0056f5fd09b445bb3e65f3bae810fc3982b4
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_br = D*t
     A_t = (W-D)*t
