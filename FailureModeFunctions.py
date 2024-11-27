@@ -1,6 +1,8 @@
 import math
 
+
 def Forces(Fx, Fy, Fz, H, W):
+    # Author: Seppe
     """
     Returns a list [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz]
     Fx = Force in x-direction
@@ -24,7 +26,10 @@ def Forces(Fx, Fy, Fz, H, W):
     M_Az = (Fx * W)/4
     M_Bz = (Fx * W)/4
 
-    return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz]
+    My = max(abs(M_Ay), abs(M_By))
+    Mz = max(abs(M_Az), abs(M_Bz))
+
+    return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz]
 
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
@@ -67,4 +72,20 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     SF = (1/((R_a^1.6+R_tr^1.6)^0.625))-1
     return SF
 
+
+
+
+def BearingFailure( D_2, t_2, n)
+    
+    F_xbolt=Fx/n + My/(n*x)
+    F_zbolt=Fz/n + My/(n*z)
+
+    P = (F_xbolt**2+F_zbolt**2)**0.5
+
+    sigma=P/(D_2*t_2)    #max stress experienced by the bolt
+    #then compare sigma to the one of the material max strenght and see how to lighten up the hinge
+
+    sigmamaterial=1 #to be completed
+
+    return sigma/sigmamaterial
 

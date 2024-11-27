@@ -1,4 +1,4 @@
-import Configuration_I as c
+import Configuration_I. as c
 Fx=c.Fx
 Fz=c.Fz
 My=c.My
@@ -19,4 +19,4 @@ P = (F_xbolt**2+F_zbolt**2)**0.5
 sigma=P/(D_2*t_2)    #max stress experienced by the bolt
 #then compare sigma to the one of the material max strenght and see 
 
-print(sigma)
+print(sigma/c.sigmamaterial)
