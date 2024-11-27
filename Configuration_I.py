@@ -50,15 +50,7 @@ G       = 27    * 10**(9)       #[Pa]       Shear Modulus
 
 class Material:
     def __init__(self, id, name, tensile_strength, shear_strength, density):
-        """
-        Initialize a material with its properties.
-        :param id: Unique ID for the material.
-        :param name: Name of the material.
-        :param tensile_strength: Tensile strength of the material (e.g., MPa).
-        :param shear_strength: Shear strength of the material (e.g., MPa).
-        :param density: Density of the material (e.g., g/cm³ or kg/m³).
-        """
-        
+
         self.id = id 
         self.name = name 
         self.tensile_strength = tensile_strength
@@ -77,12 +69,14 @@ class Material:
 
 # Define the 4 materials
 materials = [
-    Material(1, "7075 T6 Alluminium Alloy", 483, 331, 2810),   # properties
-    Material(2, "2014 T6 Alluminium Alloy", 400, 290, 2800),
-    Material(3, "SAE-AISI 4340 Steel", 470, 430, 7800),
-    Material(4, "Aged Grade 250 Maraging Steel", 1740, 1060, 8200),
+    Material(0, "7075 T6 Alluminium Alloy", 483, 331, 2810),   # properties
+    Material(1, "2014 T6 Alluminium Alloy", 400, 290, 2800),
+    Material(2, "SAE-AISI 4340 Steel", 470, 430, 7800),
+    Material(3, "Aged Grade 250 Maraging Steel", 1740, 1060, 8200),
 ]
 
 # Display the materials
 for material in materials:
     print(material)
+    
+print(materials[0].shear_strength)
