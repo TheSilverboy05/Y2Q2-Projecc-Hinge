@@ -1,4 +1,6 @@
 import math
+import numpy as np
+
 
 
 def Forces(Fx, Fy, Fz, H, W):
@@ -31,6 +33,29 @@ def Forces(Fx, Fy, Fz, H, W):
 
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz]
 
+def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
+    rows = int(n/2)
+    
+    # Forces due to Fx
+        # output in array
+    
+
+    # Forces due to Fy
+        # output in array
+    Fylist =[]
+    for i in range(rows):
+        Fylist.append([-Fy/n, -Fy/n])
+    Fyarray = np.array(Fylist)
+    # Forces due to Fz
+        # output in array
+
+    # Forces due to Mz
+        # output in array
+
+    # Sum of all forces per bolt
+        # Add all arrays
+    
+    return(Array)
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_br = D*t
