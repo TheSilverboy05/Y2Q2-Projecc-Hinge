@@ -48,12 +48,41 @@ G       = 27    * 10**(9)       #[Pa]       Shear Modulus
 #Materials Bolts
 
 
-
 class Material:
-    def __init__(self) -> None:
+    def __init__(self, id, name, tensile_strength, shear_strength, density):
+        """
+        Initialize a material with its properties.
+        :param id: Unique ID for the material.
+        :param name: Name of the material.
+        :param tensile_strength: Tensile strength of the material (e.g., MPa).
+        :param shear_strength: Shear strength of the material (e.g., MPa).
+        :param density: Density of the material (e.g., g/cm³ or kg/m³).
+        """
         
-    def add_bolt(self, size, ultimate_strenght)
+        self.id = id 
+        self.name = name 
+        self.tensile_strength = tensile_strength
+        self.shear_strength = shear_strength
+        self.density = density
 
-    def getboltstrenght(self, size)
+    def __repr__(self):
+        """
+        Provide a string representation of the material for easy viewing.
+        """
+        return (f"Material {self.id}: {self.name}\n"
+                f"  Tensile Yield Strength: {self.tensile_strength} MPa\n"
+                f"  Shear Yield Strength: {self.shear_strength} MPa\n"
+                f"  Density: {self.density} kg/m³\n")
 
 
+# Define the 4 materials
+materials = [
+    Material(1, "7075 T6 Alluminium Alloy", 483, 331, 2810),   # properties
+    Material(2, "2014 T6 Alluminium Alloy", 400, 290, 2800),
+    Material(3, "SAE-AISI 4340 Steel", 470, 430, 7800),
+    Material(4, "Aged Grade 250 Maraging Steel", 1740, 1060, 8200),
+]
+
+# Display the materials
+for material in materials:
+    print(material)
