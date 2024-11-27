@@ -29,7 +29,7 @@ def Forces(Fx, Fy, Fz, H, W):
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_br = D*t
-    A_t = ((W-D)/t)
+    A_t = (W-D)*t
 
     # K_bry, fig. D1.14 in Bruhn, taken max curve with out of bounds if the relevant curve diverges
     if (0.5*W)/D < 3.3*(D/t)+0.57:
@@ -56,13 +56,13 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     R_tr = F_z/P_ty
 
     # axial
-    P_u = K_t*S_ty*A_t
+    P_y = K_t*S_ty*A_t
     P_bry = K_bry*S_ty*A_br
 
-    if P_u > P_bry:
+    if P_y > P_bry:
         R_a = F_y/P_bry
     else:
-        R_a = F_y/P_u
+        R_a = F_y/P_y
 
     SF = (1/((R_a^1.6+R_tr^1.6)^0.625))-1
     return SF
