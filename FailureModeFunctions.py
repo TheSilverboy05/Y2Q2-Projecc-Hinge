@@ -114,10 +114,23 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
 
 
 
-def BearingFailure(Ax, Az, My, D_2, t_2, n, x, z):
-    F_xbolt = Ax/n + My/(n*x)
-    F_zbolt = Az/n + My/(n*z)
-
+def BearingFailure(Ax, Az, My, D_2, t_2, n, d):
+    
+    x=h/2+t1+d
+    
+    if(n==2):
+        F_xbolt = Ax/n + My/(n*x)
+        F_zbolt = Az/n 
+    if(n==4):
+        z=1.5*D2
+        F_xbolt = Ax/n + My/(n*x)
+        F_zbolt = Az/n + My/(n*z)
+    if(n==6):
+        z=3*D2
+        F_xbolt = Ax/n + My/(n*x)
+        F_zbolt = Az/n + My/((n-2)*z)
+    
+    
     P = (F_xbolt**2+F_zbolt**2)**0.5
 
     sigma=P/(D_2*t_2)    #max stress experienced by the bolt
