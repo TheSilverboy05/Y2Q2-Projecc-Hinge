@@ -1,5 +1,9 @@
 import math
+<<<<<<< HEAD
+import Configuration_I as c
+=======
 import numpy as np
+>>>>>>> d94f0056f5fd09b445bb3e65f3bae810fc3982b4
 
 
 
@@ -28,10 +32,12 @@ def Forces(Fx, Fy, Fz, H, W):
     M_Az = (Fx * W)/4
     M_Bz = (Fx * W)/4
 
-    My = max(abs(M_Ay), abs(M_By))
+    My = max(abs(M_Ay), abs(M_By))  
     Mz = max(abs(M_Az), abs(M_Bz))
+    Fortaz = abs(Az)
+    Fortax = abs(Ax)
 
-    return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz]
+    return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
 def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
     rows = int(n/2)
@@ -40,6 +46,13 @@ def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
         # output in array
     
 
+<<<<<<< HEAD
+
+
+
+
+
+=======
     # Forces due to Fy
         # output in array
     Fylist =[]
@@ -57,6 +70,7 @@ def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
     
     return(Array)
 
+>>>>>>> d94f0056f5fd09b445bb3e65f3bae810fc3982b4
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_br = D*t
     A_t = (W-D)*t
@@ -100,10 +114,9 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
 
 
 
-def BearingFailure( D_2, t_2, n)
-    
-    F_xbolt=Fx/n + My/(n*x)
-    F_zbolt=Fz/n + My/(n*z)
+def BearingFailure(Ax, Az, My, D_2, t_2, n, x, z):
+    F_xbolt = Ax/n + My/(n*x)
+    F_zbolt = Az/n + My/(n*z)
 
     P = (F_xbolt**2+F_zbolt**2)**0.5
 
@@ -113,4 +126,7 @@ def BearingFailure( D_2, t_2, n)
     sigmamaterial=1 #to be completed
 
     return sigma/sigmamaterial
+
+
+
 
