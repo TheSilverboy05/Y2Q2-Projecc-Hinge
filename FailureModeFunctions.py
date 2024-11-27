@@ -18,7 +18,7 @@ def Forces(Fx, Fy, Fz, H, W):
     W  = length of the solar panel in y-direction
     """
     #Forces
-    Az = -Fz/2
+    Az = -Fz/2 #why negative
     Bz = -Fz/2
     Ax = -Fx/2
     Bx = -Fx/2
@@ -31,7 +31,8 @@ def Forces(Fx, Fy, Fz, H, W):
     M_By = (Fx * H)/8
     M_Az = (Fx * W)/4
     M_Bz = (Fx * W)/4
-
+    
+    
     My = max(abs(M_Ay), abs(M_By))  
     Mz = max(abs(M_Az), abs(M_Bz))
     Fortaz = abs(Az)
@@ -114,7 +115,7 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
 
 
 
-def BearingFailure(Ax, Az, My, D_2, t_2, n, d):
+def BearingFailure(Ax, Az, My, D_2, t_2, n, d, materialid):
     
     x=h/2+t1+d
     
@@ -133,10 +134,10 @@ def BearingFailure(Ax, Az, My, D_2, t_2, n, d):
     
     P = (F_xbolt**2+F_zbolt**2)**0.5
 
-    sigma=P/(D_2*t_2)    #max stress experienced by the bolt
+    sigma=1.2*P/(D_2*t_2)    #max stress experienced by the bolt
     #then compare sigma to the one of the material max strenght and see how to lighten up the hinge
 
-    sigmamaterial=1 #to be completed
+    sigmamaterial = materials[materialid].shear_strength 
 
     return sigma/sigmamaterial
 
