@@ -5,7 +5,7 @@ import Configuration_I as c
 import numpy as np
 >>>>>>> d94f0056f5fd09b445bb3e65f3bae810fc3982b4
 
-
+#
 
 def Forces(Fx, Fy, Fz, H, W):
     # Author: Seppe
