@@ -67,7 +67,7 @@ class Material:
                 f"  Density: {self.density} kg/m³\n")
 
 
-# Define the 4 materials
+# Defining the 4 materials
 materials = [
     Material(0, "7075 T6 Alluminium Alloy", 483, 331, 2810),   # properties
     Material(1, "2014 T6 Alluminium Alloy", 400, 290, 2800),
@@ -79,4 +79,4 @@ materials = [
 for material in materials:
     print(material)
     
-print(materials[0].shear_strength)
+print(materials[0].shear_strength) #test test use this if you need any feature
