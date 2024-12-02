@@ -79,7 +79,7 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     # K_ty, fig. D1.15 in Bruhn, only curve 3
     A_2 = 0.5*(W-D)
     A_1 = A_2+0.5*D-0.5*D*math.cos(45*(math.pi/180))
-    A_av = 6/((a/A_1)+(2/A_2))
+    A_av = 3/((2/A_1)+(1/A_2))
     K_ty = -4.72*10^(-3)+1/39(A_av/A_br)-0.341(A_av/A_br)^2
 
     # K_t, fig. D1.12 in Bruhn, only linear part otherwise out of bounds
