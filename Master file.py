@@ -10,7 +10,12 @@ import constants as cst
 import Configuration_I as config
 
 # Perform checks
+    # => Safety factors
 
-Forces = FM.Forces(config.Fx, config.Fy, config.Fz, config.H, config.W)
+# Backplate design
 
-SF1 = FM.FlangeFailure()
+for D2 in range(5):
+    for L in range(5):
+        for t2 in range(5):
+            for n in range(5):
+                FM.PullThrough
