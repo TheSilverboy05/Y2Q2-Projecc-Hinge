@@ -69,10 +69,10 @@ class Material:
 
 # Defining the 4 materials
 materials = [
-    Material(0, "7075 T6 Alluminium Alloy", 483, 331, 2810),   # properties
-    Material(1, "2014 T6 Alluminium Alloy", 400, 290, 2800),
-    Material(2, "SAE-AISI 4340 Steel", 470, 430, 7800),
-    Material(3, "Aged Grade 250 Maraging Steel", 1740, 1060, 8200),
+    Material(0, "7075 T6 Alluminium Alloy", 483*10**6, 331*10**6, 2810),   # properties
+    Material(1, "2014 T6 Alluminium Alloy", 400*10**6, 290*10**6, 2800),
+    Material(2, "SAE-AISI 4340 Steel", 470*10**6, 430*10**6, 7800),
+    Material(3, "Aged Grade 250 Maraging Steel", 1740*10**6, 1060*10**6, 8200),
 ]
 
 # Display the materials
