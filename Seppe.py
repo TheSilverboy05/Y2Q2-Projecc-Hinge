@@ -73,3 +73,14 @@ def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
 
 
 print(BoltsLoad(100,100,-100,100,10,10*10**(-3),30*10**(-3),30*10**(-3),30*10**(-3),50*10**(-3),5*10**(-3),200*10^(-3)))
+
+
+def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
+    VolumeBP = t2*w*L - n*D2*t2
+    VolumeF  = s2*w*t1 + 0.5*math.pi*((0.5*w)**2)*t1 - math.pi*((D1/2)**2)*t1
+
+    Volume   = VolumeBP + 2 * VolumeF
+
+    mass = Volume * rho
+
+    return mass
