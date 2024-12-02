@@ -37,7 +37,8 @@ def Forces(Fx, Fy, Fz, H, W):
 
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
-def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
+def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
+    # Author: Seppe
     rows = int(n/2)
     
     # Forces due to Fx
@@ -55,15 +56,43 @@ def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
     Fyarray = np.array(Fylist)
 
     # Forces due to Fz
-        # output in array
+        # Force closest to the neutral axis:
+    denominatorfactor = 0
+    Fzlist = []
+
+    if (n%4) == 0:
+        for i in range(int(n/4)):
+            denominatorfactor += 2*i+1
+        Fclosest = ((Fz*(s2+(t2/2)))/(2*e3*denominatorfactor))
+
+        for i in range(int(n/2)-1,int(-(n/2)),-2):
+            Fzlist.append([Fclosest*i, Fclosest*i])
+    
+    elif (n%4) != 0:
+        for i in range(int((n-2)/4)):
+            denominatorfactor += (i+1)^2
+        Fclosest = ((Fz*(s2+(t2/2)))/(4*e3*denominatorfactor))
+
+        for i in range(int((n-2)/4),int(-(((n-2)/4)+1)),-1):
+            Fzlist.append([i*Fclosest, i*Fclosest])
+
+    Fzarray = np.array(Fzlist)
 
     # Forces due to Mz
-        # output in array
+    FMzlist = []
+    FMz1 = (-Mz)/(2*((L/2)-e1))
+    FMz2 = (Mz)/(2*((L/2)-e1))
+
+    for i in range(int(n/2)):
+        FMzlist.append([FMz1,FMz2])
+
+    FMzarray = np.array(FMzlist)
 
     # Sum of all forces per bolt
+    Farray = Fxarray + Fyarray + Fzarray + FMzarray
         # Add all arrays
     
-    return(Array)
+    return(Farray)
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_br = D*t
