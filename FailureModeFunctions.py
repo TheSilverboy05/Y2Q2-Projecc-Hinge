@@ -38,7 +38,7 @@ def Forces(Fx, Fy, Fz, H, W):
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
 def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
-    # Author: Seppe
+
     rows = int(n/2)
     
     # Forces due to Fx
