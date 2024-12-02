@@ -11,9 +11,9 @@ Fy      = 100   * 10**(0)       #[N]        Main load in y-direction
 Fz      = 100   * 10**(0)       #[N]        Main load in z-direction
 
 # Main Moments on each lug
-Mx      = 0
-My      = 2 #plugin value
-Mz      = 2 #plugin value
+Mx      = 0     * 10**(0)       #[Nm]       Main moment in x-direction
+My      = 2     * 10**(0)       #[Nm]       Main moment in y-direction
+Mz      = 2     * 10**(0)       #[Nm]       Main moment in z-direction
 
 # Spacecraft skin:
 t3      = 2     * 10**(-3)      #[m]        Thickness
