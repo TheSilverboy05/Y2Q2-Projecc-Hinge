@@ -13,4 +13,3 @@ import Configuration_I as config
 
 Forces = FM.Forces(config.Fx, config.Fy, config.Fz, config.H, config.W)
 
-SF1 = FM.FlangeFailure()

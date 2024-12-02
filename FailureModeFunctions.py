@@ -115,24 +115,21 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     if (0.5*W)/D < 3.3*(t/D)+0.57:
        K_bry = -1.25+2.98*((0.5*W)/D)-0.998*((0.5*W)/D)**(2)+0.11*((0.5*W)/D)**3
     else:
-        print("e/D conbined with D/t is out of bounds")
+        # print("e/D conbined with D/t is out of bounds")
         K_bry = 100000000
-    print("t/D: ", t/D, " e/D: ", (0.5*W)/D, " K_bry: ", K_bry)
 
     # K_ty, fig. D1.15 in Bruhn, only curve 3
     A_2 = 0.5*(W-D)*t
     A_1 = (A_2+0.5*D-0.5*D*math.cos(math.radians(45)))*t
     A_av = 6/((4/A_1)+(2/A_2))
     K_ty = -4.72*10**(-3)+1.39*(A_av/A_br)-0.341*(A_av/A_br)**2
-    print("A_av: ", A_av, " A_br: ", A_br, " K_ty: ", K_ty)
 
     # K_t, fig. D1.12 in Bruhn, only linear part otherwise out of bounds
     if W/D <= 2.9: 
         K_t = (W/D)*(-0.08/1.4)+1.0857
     else:
         K_t = 100000000
-        print("W/D out of bounds (over 2.9)")
-    print("W/D: ", W/D, " K_t: ", K_t)
+        # print("W/D out of bounds (over 2.9)")
 
     # transverse
     P_ty = K_ty*A_br*S_ty
@@ -148,7 +145,6 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
         R_a = abs(F_y)/P_y
 
     SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
-    print("K_bry: ", K_bry, " K_ty: ", K_ty, " K_t: ", K_t, " P_ty: ", P_ty, " P_y: ", P_y, " P_bry: ", P_bry, " F_y: ", F_y, " F_z: ", F_z)
     return SF
 
 
