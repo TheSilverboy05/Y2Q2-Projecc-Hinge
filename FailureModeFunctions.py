@@ -38,7 +38,9 @@ def Forces(Fx, Fy, Fz, H, W):
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
 def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
-
+    """ This function outputs an array with shear stresses
+    for every bolt in the back plate"""
+    # Author: Seppe
     rows = int(n/2)
     
     # Forces due to Fx
@@ -92,7 +94,18 @@ def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     Farray = Fxarray + Fyarray + Fzarray + FMzarray
         # Add all arrays
     
-    return(Farray)
+    # Surface Matrix
+    Arealist = []
+    Area = 2*math.pi*(D2/2)*t2
+    for i in range(int((n/2))):
+        Arealist.append([Area,Area])
+    
+    AreaArray = np.array(Arealist)
+
+    # Shear Stress Matrix
+    ShearStressArray = np.divide(Farray, AreaArray)
+
+    return(ShearStressArray)
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_br = D*t
