@@ -1,6 +1,9 @@
 import numpy as np
+import math
 
 def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
+    """ This function outputs an array with shear stresses
+    for every bolt in the back plate"""
     # Author: Seppe
     rows = int(n/2)
     
@@ -55,7 +58,18 @@ def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     Farray = Fxarray + Fyarray + Fzarray + FMzarray
         # Add all arrays
     
-    return(Farray)
+    # Surface Matrix
+    Arealist = []
+    Area = 2*math.pi*(D2/2)*t2
+    for i in range(int((n/2))):
+        Arealist.append([Area,Area])
+    
+    AreaArray = np.array(Arealist)
+
+    # Shear Stress Matrix
+    ShearStressArray = np.divide(Farray, AreaArray)
+
+    return(ShearStressArray)
 
 
-print(BoltsLoad(100,100,-100,100,10,10*10^(-3),30*10^(-3),30*10^(-3),30*10^(-3),50*10^(-3),5*10^(-3),200*10^(-3)))
+print(BoltsLoad(100,100,-100,100,10,10*10**(-3),30*10**(-3),30*10**(-3),30*10**(-3),50*10**(-3),5*10**(-3),200*10^(-3)))
