@@ -70,17 +70,19 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_t = (W-D)*t
 
     # K_bry, fig. D1.14 in Bruhn, taken max curve with out of bounds if the relevant curve diverges
-    if (0.5*W)/D < 3.3*(D/t)+0.57:
-       K_bry = -1.25*(D/t)-0.998*(D/t)^2+0.11*(D/t)^3
+    if (0.5*W)/D < 3.3*(t/D)+0.57:
+       K_bry = -1.25+2.98*((0.5*W)/D)-0.998*((0.5*W)/D)**(2)+0.11*((0.5*W)/D)**3
     else:
         print("e/D conbined with D/t is out of bounds")
         K_bry = 100000000
+    print("t/D: ", t/D, " e/D: ", (0.5*W)/D, " K_bry: ", K_bry)
 
     # K_ty, fig. D1.15 in Bruhn, only curve 3
-    A_2 = 0.5*(W-D)
-    A_1 = A_2+0.5*D-0.5*D*math.cos(45*(math.pi/180))
-    A_av = 3/((2/A_1)+(1/A_2))
-    K_ty = -4.72*10^(-3)+1/39(A_av/A_br)-0.341(A_av/A_br)^2
+    A_2 = 0.5*(W-D)*t
+    A_1 = (A_2+0.5*D-0.5*D*math.cos(math.radians(45)))*t
+    A_av = 6/((4/A_1)+(2/A_2))
+    K_ty = -4.72*10**(-3)+1.39*(A_av/A_br)-0.341*(A_av/A_br)**2
+    print("A_av: ", A_av, " A_br: ", A_br, " K_ty: ", K_ty)
 
     # K_t, fig. D1.12 in Bruhn, only linear part otherwise out of bounds
     if W/D <= 2.9: 
@@ -88,21 +90,23 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     else:
         K_t = 100000000
         print("W/D out of bounds (over 2.9)")
+    print("W/D: ", W/D, " K_t: ", K_t)
 
     # transverse
     P_ty = K_ty*A_br*S_ty
-    R_tr = F_z/P_ty
+    R_tr = abs(F_z)/P_ty
 
     # axial
     P_y = K_t*S_ty*A_t
     P_bry = K_bry*S_ty*A_br
 
     if P_y > P_bry:
-        R_a = F_y/P_bry
+        R_a = abs(F_y)/P_bry
     else:
-        R_a = F_y/P_y
+        R_a = abs(F_y)/P_y
 
-    SF = (1/((R_a^1.6+R_tr^1.6)^0.625))-1
+    SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
+    print("K_bry: ", K_bry, " K_ty: ", K_ty, " K_t: ", K_t, " P_ty: ", P_ty, " P_y: ", P_y, " P_bry: ", P_bry, " F_y: ", F_y, " F_z: ", F_z)
     return SF
 
 
