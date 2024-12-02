@@ -37,7 +37,10 @@ def Forces(Fx, Fy, Fz, H, W):
 
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
-def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
+def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
+    """ This function outputs an array with shear stresses
+    for every bolt in the back plate"""
+    # Author: Seppe
     rows = int(n/2)
     
     # Forces due to Fx
@@ -55,15 +58,54 @@ def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,W,L):
     Fyarray = np.array(Fylist)
 
     # Forces due to Fz
-        # output in array
+        # Force closest to the neutral axis:
+    denominatorfactor = 0
+    Fzlist = []
+
+    if (n%4) == 0:
+        for i in range(int(n/4)):
+            denominatorfactor += 2*i+1
+        Fclosest = ((Fz*(s2+(t2/2)))/(2*e3*denominatorfactor))
+
+        for i in range(int(n/2)-1,int(-(n/2)),-2):
+            Fzlist.append([Fclosest*i, Fclosest*i])
+    
+    elif (n%4) != 0:
+        for i in range(int((n-2)/4)):
+            denominatorfactor += (i+1)^2
+        Fclosest = ((Fz*(s2+(t2/2)))/(4*e3*denominatorfactor))
+
+        for i in range(int((n-2)/4),int(-(((n-2)/4)+1)),-1):
+            Fzlist.append([i*Fclosest, i*Fclosest])
+
+    Fzarray = np.array(Fzlist)
 
     # Forces due to Mz
-        # output in array
+    FMzlist = []
+    FMz1 = (-Mz)/(2*((L/2)-e1))
+    FMz2 = (Mz)/(2*((L/2)-e1))
+
+    for i in range(int(n/2)):
+        FMzlist.append([FMz1,FMz2])
+
+    FMzarray = np.array(FMzlist)
 
     # Sum of all forces per bolt
+    Farray = Fxarray + Fyarray + Fzarray + FMzarray
         # Add all arrays
     
-    return(Array)
+    # Surface Matrix
+    Arealist = []
+    Area = 2*math.pi*(D2/2)*t2
+    for i in range(int((n/2))):
+        Arealist.append([Area,Area])
+    
+    AreaArray = np.array(Arealist)
+
+    # Shear Stress Matrix
+    ShearStressArray = np.divide(Farray, AreaArray)
+
+    return(ShearStressArray)
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_br = D*t
@@ -138,6 +180,14 @@ def BearingFailure(Ax, Az, My, D_2, t_2, n, d, materialid):
 
     return sigma/sigmamaterial
 
+def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
+    VolumeBP = t2*w*L - n*D2*t2
+    VolumeF  = s2*w*t1 + 0.5*math.pi*((0.5*w)**2)*t1 - math.pi*((D1/2)**2)*t1
 
+    Volume   = VolumeBP + 2 * VolumeF
+
+    mass = Volume * rho
+
+    return mass
 
 
