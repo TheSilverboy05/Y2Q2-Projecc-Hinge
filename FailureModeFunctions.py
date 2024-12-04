@@ -37,7 +37,7 @@ def Forces(Fx, Fy, Fz, H, W):
 
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
-def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
+def PullThrough(Fx,Fy,Fz,Mz,n,D2,e1,e3,s2,t2,L):
     """ This function outputs an array with shear stresses
     for every bolt in the back plate"""
     # Author: Seppe
@@ -150,40 +150,33 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
 
 
 
-def BearingFailure(Ax, Az, My, D_2, t_2, n, d, materialid):
-    
-    x=h/2+t1+d
-    
-    if(n==2):
-        F_xbolt = Ax/n + My/(n*x)
-        F_zbolt = Az/n 
-    if(n==4):
-        z=1.5*D2
-        F_xbolt = Ax/n + My/(n*x)
-        F_zbolt = Az/n + My/(n*z)
-    if(n==6):
-        z=3*D2
-        F_xbolt = Ax/n + My/(n*x)
-        F_zbolt = Az/n + My/((n-2)*z)
-    
-    
-    P = (F_xbolt**2+F_zbolt**2)**0.5
+def BearingFailure(Ax, Az, My, D_2, t_2, n, d, h, t1, materialid):
+    x = h / 2 + t1 + d
 
-    sigma=1.2*P/(D_2*t_2)    #max stress experienced by the bolt
-    #then compare sigma to the one of the material max strenght and see how to lighten up the hinge
+    if (n == 2):
+        F_xbolt = Ax / n + My / (n * x)
+        F_zbolt = Az / n
+    if (n == 4):
+        z = 1.5 * D_2
+        F_xbolt = Ax / n + My / (n * x)
+        F_zbolt = Az / n + My / (n * z)
+    if (n == 6):
+        z = 3 * D2
+        F_xbolt = Ax / n + My / (n * x)
+        F_zbolt = Az / n + My / ((n - 2) * z)
 
-    sigmamaterial = c.materials[materialid].shear_strength 
+    P = (F_xbolt ** 2 + F_zbolt ** 2) ** 0.5
 
-    return sigma/sigmamaterial
+    sigma = 1.2 * P / (D_2 * t_2)  # max stress experienced by the bolt
+    # then compare sigma to the one of the material max strenght and see how to lighten up the hinge
 
-def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
-    VolumeBP = t2*w*L - n*D2*t2
-    VolumeF  = s2*w*t1 + 0.5*math.pi*((0.5*w)**2)*t1 - math.pi*((D1/2)**2)*t1
+    sigmamaterial = c.materials[materialid].shear_strength
 
-    Volume   = VolumeBP + 2 * VolumeF
+    return sigma / sigmamaterial
 
-    mass = Volume * rho
+fortele=Forces(c.Fx, c.Fy, c.Fz, c.H, c.W)
+Fortax=fortele[12]
+Fortaz=fortele[13]
+My=fortele[10]
 
     return mass
-
-
