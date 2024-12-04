@@ -37,7 +37,7 @@ e2      = 5     * 10**(-3)      #[m]        distance edge to center of a hole on
 t1      = 3     * 10**(-3)      #[m]        Thickness of the flange
 s1      = 100   * 10**(-3)      #[m]        Length of the flange
 s2      = 70    * 10**(-3)      #[m]        Center position of the pin hole
-D1      = 745    * 10**(-3)      #[m]        Diameter of the pin hole
+D1      = 70    * 10**(-3)      #[m]        Diameter of the pin hole
 h       = 50    * 10**(-3)      #[m]        Inner dimension between two flanges
 N       = 2                     #           Number of flanges
 
