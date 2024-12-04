@@ -3,7 +3,7 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-import FailureModeFunctions as FM
+import FailureModeFunctions
 
 #Import files
 import constants as cst
@@ -18,4 +18,4 @@ for D2 in range(5):
     for L in range(5):
         for t2 in range(5):
             for n in range(5):
-                FM.PullThrough()
+                FailureModeFunctions.PullThrough()
