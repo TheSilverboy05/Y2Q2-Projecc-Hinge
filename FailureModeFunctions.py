@@ -35,9 +35,9 @@ def Forces(Fx, Fy, Fz, H, W):
     Fortaz = abs(Az)
     Fortax = abs(Ax)
 
-    return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
+    return [Ax, Ay, Az, Bx, By, Bz, M_Ay, M_Az, M_By ,M_Bz, My, Mz, Fortax, Fortaz]
 
-def PullThrough(Fx,Fy,Fz,Mz,n,D2,e1,e3,s2,t2,L):
+def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     """ This function outputs an array with shear stresses
     for every bolt in the back plate"""
     # Author: Seppe
@@ -144,11 +144,12 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     else:
         R_a = abs(F_y)/P_y
 
-    SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
+    if D > W:
+        SF = 0.1
+    else:
+        SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
+
     return SF
-
-
-
 
 def BearingFailure(Ax, Az, My, D_2, t_2, n, d, h, t1, materialid):
     x = h / 2 + t1 + d
@@ -174,14 +175,56 @@ def BearingFailure(Ax, Az, My, D_2, t_2, n, d, h, t1, materialid):
 
     return sigma / sigmamaterial
 
-def test(a,b):
-    c=(a**2+b**2)**(1/2)
+def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
+    VolumeBP = t2*w*L - n*D2*t2
+    VolumeF  = s2*w*t1 + 0.5*math.pi*((0.5*w)**2)*t1 - math.pi*((D1/2)**2)*t1
 
-    return c
+    Volume   = VolumeBP + 2 * VolumeF
+
+    mass = Volume * rho
+
+    return mass
 
 fortele=Forces(c.Fx, c.Fy, c.Fz, c.H, c.W)
 Fortax=fortele[12]
 Fortaz=fortele[13]
 My=fortele[10]
 
+# LOOP FOR LUG A:
+# Author: Seppe
+# Enter general forces here:
+Fx = 100
+Fy = 100
+Fz = 100
 
+# Then the forces at lug A are calculated:
+Ax = Forces(Fx,Fy,Fz,0.450,0.975)[0]
+Ay = Forces(Fx,Fy,Fz,0.450,0.975)[1]
+Az = Forces(Fx,Fy,Fz,0.450,0.975)[2]
+
+M_Ay = Forces(Fx,Fy,Fz,0.450,0.975)[6]
+M_Az = Forces(Fx,Fy,Fz,0.450,0.975)[7]
+
+# Then we also need some material properties:
+Tau_max = 27 *10**(9) # Pa
+
+# First iterate over flanges to determine s2
+
+for D2 in range(5):
+    for L in range(5):
+        for t2 in range(5):
+            for n in range(5):
+                Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 0.050, t2, L)
+                Tau_max_list = []
+                for i in range((n/2)+1):
+                    Tau_max_list.append([Tau_max, Tau_max])
+                Tau_max_array = np.array(Tau_max_list)
+                AbsPullthrougharray = abs(Pullthrougharray)
+                Marginsarray = Tau_max_array - AbsPullthrougharray
+                negative = np.any(Marginsarray<0)
+                if negative == True:
+                    print("Fuck this one fails goddamnit!!!")
+                else:
+                    max = np.max(Pullthrougharray)
+                    SF = max / Tau_max
+                    print("The safety factor is", SF)
