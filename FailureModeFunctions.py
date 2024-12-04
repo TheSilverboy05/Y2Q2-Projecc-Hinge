@@ -174,6 +174,16 @@ def BearingFailure(Ax, Az, My, D_2, t_2, n, d, h, t1, materialid):
 
     return sigma / sigmamaterial
 
+def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
+    VolumeBP = t2*w*L - n*D2*t2
+    VolumeF  = s2*w*t1 + 0.5*math.pi*((0.5*w)**2)*t1 - math.pi*((D1/2)**2)*t1
+
+    Volume   = VolumeBP + 2 * VolumeF
+
+    mass = Volume * rho
+
+    return mass
+
 fortele=Forces(c.Fx, c.Fy, c.Fz, c.H, c.W)
 Fortax=fortele[12]
 Fortaz=fortele[13]
