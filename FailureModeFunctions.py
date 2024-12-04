@@ -1,6 +1,6 @@
 import math
 import numpy as np
-import Configuration_I as c
+#import Configuration_I as c
 
 #
 
@@ -30,12 +30,12 @@ def Forces(Fx, Fy, Fz, H, W):
     M_Bz = (Fx * W)/4
     
     
-    My = max(abs(M_Ay), abs(M_By))  
-    Mz = max(abs(M_Az), abs(M_Bz))
-    Fortaz = abs(Az)
-    Fortax = abs(Ax)
+    # My = max(abs(M_Ay), abs(M_By))  
+    # Mz = max(abs(M_Az), abs(M_Bz))
+    # Fortaz = abs(Az)
+    # Fortax = abs(Ax)
 
-    return [Ax, Ay, Az, Bx, By, Bz, M_Ay, M_Az, M_By ,M_Bz, My, Mz, Fortax, Fortaz]
+    return [Ax, Ay, Az, Bx, By, Bz, M_Ay, M_Az, M_By ,M_Bz] #My, Mz, Fortax, Fortaz]
 
 def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     """ This function outputs an array with shear stresses
@@ -185,10 +185,10 @@ def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
 
     return mass
 
-fortele=Forces(c.Fx, c.Fy, c.Fz, c.H, c.W)
-Fortax=fortele[12]
-Fortaz=fortele[13]
-My=fortele[10]
+# fortele=Forces(c.Fx, c.Fy, c.Fz, c.H, c.W)
+# Fortax=fortele[12]
+# Fortaz=fortele[13]
+# My=fortele[10]
 
 # LOOP FOR LUG A:
 # Author: Seppe
@@ -210,13 +210,13 @@ Tau_max = 27 *10**(9) # Pa
 
 # First iterate over flanges to determine s2
 
-for D2 in range(5):
-    for L in range(5):
-        for t2 in range(5):
-            for n in range(5):
+for D2 in np.arange(0.001,0.02,0.001):
+    for L in np.arange(0.01,0.2,0.01):
+        for t2 in np.arange(0.001,0.01,0.001):
+            for n in range(4,20,2):
                 Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 0.050, t2, L)
                 Tau_max_list = []
-                for i in range((n/2)+1):
+                for i in range(int((n/2))):
                     Tau_max_list.append([Tau_max, Tau_max])
                 Tau_max_array = np.array(Tau_max_list)
                 AbsPullthrougharray = abs(Pullthrougharray)
@@ -225,6 +225,6 @@ for D2 in range(5):
                 if negative == True:
                     print("Fuck this one fails goddamnit!!!")
                 else:
-                    max = np.max(Pullthrougharray)
-                    SF = max / Tau_max
+                    max = np.max(AbsPullthrougharray)
+                    SF = Tau_max / max
                     print("The safety factor is", SF)
