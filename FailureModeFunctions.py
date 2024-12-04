@@ -37,7 +37,7 @@ def Forces(Fx, Fy, Fz, H, W):
 
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
-def PullThrough(Fx,Fy,Fz,Mz,n,D2,e1,e3,s2,t2,L):
+def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     """ This function outputs an array with shear stresses
     for every bolt in the back plate"""
     # Author: Seppe
@@ -192,5 +192,8 @@ fortele=Forces(c.Fx, c.Fy, c.Fz, c.H, c.W)
 Fortax=fortele[12]
 Fortaz=fortele[13]
 My=fortele[10]
+>>>>>>> f0d248cbbbce1333fd62d5501f3bc1a7128acd07
+
+    return mass
 
 
