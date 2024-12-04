@@ -18,4 +18,4 @@ for D2 in range(5):
     for L in range(5):
         for t2 in range(5):
             for n in range(5):
-                FM.PullThrough
+                FM.PullThrough()

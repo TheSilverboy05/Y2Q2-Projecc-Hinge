@@ -161,7 +161,7 @@ def BearingFailure(Ax, Az, My, D_2, t_2, n, d, h, t1, materialid):
         F_xbolt = Ax / n + My / (n * x)
         F_zbolt = Az / n + My / (n * z)
     if (n == 6):
-        z = 3 * D2
+        z = 3 * D_2
         F_xbolt = Ax / n + My / (n * x)
         F_zbolt = Az / n + My / ((n - 2) * z)
 
@@ -179,4 +179,4 @@ Fortax=fortele[12]
 Fortaz=fortele[13]
 My=fortele[10]
 
-    return mass
+
