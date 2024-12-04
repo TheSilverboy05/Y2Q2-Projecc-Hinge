@@ -195,7 +195,7 @@ def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
 # Enter general forces here:
 Fx = 100
 Fy = 100
-Fz = 100
+Fz = 10000
 
 # Then the forces at lug A are calculated:
 Ax = Forces(Fx,Fy,Fz,0.450,0.975)[0]
