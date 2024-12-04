@@ -37,7 +37,7 @@ def Forces(Fx, Fy, Fz, H, W):
 
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
-def PullThrough(Fx,Fy,Fz,Mz,n,D2,e1,e3,s2,t2,L):
+def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     """ This function outputs an array with shear stresses
     for every bolt in the back plate"""
     # Author: Seppe
@@ -145,6 +145,7 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
         R_a = abs(F_y)/P_y
 
     SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
+    print("K_bry: ", K_bry, " K_ty: ", K_ty, " K_t: ", K_t, " P_ty: ", P_ty, " P_y: ", P_y, " P_bry: ", P_bry, " F_y: ", F_y, " F_z: ", F_z)
     return SF
 
 
@@ -188,5 +189,8 @@ fortele=Forces(c.Fx, c.Fy, c.Fz, c.H, c.W)
 Fortax=fortele[12]
 Fortaz=fortele[13]
 My=fortele[10]
+>>>>>>> f0d248cbbbce1333fd62d5501f3bc1a7128acd07
+
+    return mass
 
 
