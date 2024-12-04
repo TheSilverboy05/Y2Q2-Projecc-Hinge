@@ -144,7 +144,11 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     else:
         R_a = abs(F_y)/P_y
 
-    SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
+    if D > W:
+        SF = 0.1
+    else:
+        SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
+
     return SF
 
 
