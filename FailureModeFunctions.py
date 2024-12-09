@@ -162,6 +162,7 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
         z = 1.25 * D_2
         F_xbolt = Ax / n + My / (n * x)
         F_zbolt = Az / n + My / (n * z)
+
     if (n == 6):
         z = 2.5 * D_2
         F_xbolt = Ax / n + My / (n * x)
@@ -177,7 +178,7 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
     sigma = 1.2 * P / (D_2 * t_2)  # max stress experienced by the bolt
     # then compare sigma to the one of the material max strenght and see how to lighten up the hinge  
 
-    return sigma / sigmamaterial
+    return sigmamaterial / sigma
 
 
 # def Thermal(t_1, materialid, D_2, c.materials, c.bolt):
