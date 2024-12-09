@@ -209,7 +209,7 @@ M_Az = Forces(Fx,Fy,Fz,0.450,0.975)[7]
 Tau_max = 27 *10**(9) # Pa
 S_ty = 10
 rho = 2000
-
+sigmamaterial = 507.76 *10**6
 # First iterate over flanges to determine s2
 
 data = [['Iteration', 'D1','D2', 'L', 'W', 't1', 't2', 'n', 'SF Pullthrough', 'SF Flangefailure', 'SF Bearing', 'mass']]
@@ -242,7 +242,6 @@ for D2 in np.arange(0.001,0.02,0.001):
                 
                     for t1 in np.arange(0.001,0.011,0.001):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
-                        sigmamaterial = c.bolt.shear_strength
                         SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,n,sigmamaterial)
 
                         mass = MassCalc(2*D1, D1, t1, W, t2, L,n,D2, rho)
