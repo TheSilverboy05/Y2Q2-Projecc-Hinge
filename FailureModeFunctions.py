@@ -192,15 +192,15 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
     return sigmamaterial / sigma
 
 
-# def Thermal(t_1, materialid, D_2, c.materials, c.bolt):
-#     sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
-#     sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
+def Thermal(t_2, Ep, Eb, D2, Ap, Ab): # t1, E modulus lug, E modulus bolt, D2, Thermal coefficient lug, Thermal coefficient bolt,
+    sa = 4* t_2 /(Ep*3.14*1.5*D2**2)
+    sb = 1/ Eb * 4* t_2 /(3.14* D2**2/4)
     
-#     stupidletter = sa/(sa+sb)
+    stupidletter = sa/(sa+sb)
     
-#     stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
+    Force = (Ap - Ab)*250 * Eb *3.14 * D2**2/4 * (1-stupidletter)*(3.14*(D2/2)**2)
     
-#     return stress
+    return Force
     
     
 
@@ -239,10 +239,14 @@ M_Ay = Forces(Fx,Fy,Fz,0.450,0.975)[6]
 M_Az = Forces(Fx,Fy,Fz,0.450,0.975)[7]
 
 # Then we also need some material properties:
-Material = ["7075-T6", "2014-T6", "SEA-aAISI 4340", "aged grade 250 maraging steel"]
-Tau_max = [331*10**6, 290*10**6, 200*10**9, 1060*10**6]
-S_ty = [483*10**6, 400*10**6, 470*10**6, 1740*10**6]
-rho = [2810, 2800, 7800, 8200]
+Material = ["7075-T6", "2014-T6", "SEA-AISI 4340", "aged grade 250 maraging steel"]
+Tau_max = [331*10**6, 290*10**6, 470*10**6, 1060*10**6] # https://asm.matweb.com/search/specificmaterial.asp?bassnum=ma7075t6, https://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6, https://www.azom.com/article.aspx?ArticleID=6772, https://www.makeitfrom.com/material-properties/Aged-Grade-250-Maraging-Steel
+S_ty = [503*10**6, 414*10**6, 470*10**6, 1740*10**6]
+rho = [2810, 2780, 7800, 8200]
+E = [71.7*10*9, 73.1*10*9, 200*10*9, 190*10*9]
+a = [23.6*10*(-6), 23.6*10*(-6), 12.3*10*(-6), 10.1*10*(-6)] #thermal expansion coefficient
+ab = 8.6*10**(-6) # Thermal expansion of the bolt
+Eb = 113.8 * 10 ** 9 # Young's modulus of the bolt 
 # First iterate over flanges to determine s2
 
 data = [['Iteration', 'D1','D2', 'L', 'W', 't1', 't2', 'n', 'SF Pullthrough', 'SF Flangefailure', 'SF Bearing', 'mass']]
@@ -253,17 +257,19 @@ SFMAX = -1
 massmax = 100
 bestconfig = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
-j = 0 # select material
 
-for D2 in np.arange(0.0005,0.002,0.0005):
-    for L in np.arange(0.005,0.2,0.005):
-        for t2 in np.arange(0.008,0.02,0.005):
-            for n in range(4,10,2):
+j = 2 # select material
+
+for D2 in np.arange(0.002,0.003,0.0005):
+    for L in np.arange((6*D2+4*0.005),(6*D2+4*0.005+0.05),0.01): # min 4x e1 + 4x t1
+        for t2 in np.arange(0.004,0.006,0.0005):
+            for n in range(4,8,2):
                 e1 = 1.5 * D2
                 e3 = 2.5 * D2
-                W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
-                for D1 in np.arange(0.005,W-0.001,0.001): 
-                    Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 2*D1, t2, L)
+                W = 2 * e1 + ((n/2)-1)* e3
+                for D1 in np.arange(0.004,0.006,0.0005): 
+                    TF = Thermal(t2, E[j], Eb, D2, a[j], ab) # extra "thermal force" on the fasteners
+                    Pullthrougharray = Pullthrough(Ax, Ay+TF, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 2*D1, t2, L)
                     Tau_max_list = []
                     for i in range(int((n/2))):
                         Tau_max_list.append([Tau_max[j], Tau_max[j]])
@@ -277,7 +283,7 @@ for D2 in np.arange(0.0005,0.002,0.0005):
                     else: 
                         SFPullthrough = 0.1
                 
-                    for t1 in np.arange(0.002,0.005,0.0005):
+                    for t1 in np.arange(0.004,0.06,0.0005):
                         SFflange = FlangeFailure(W,D1,t1,S_ty[j],Ay,Az)
                         SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,L,n,S_ty[j])
 
@@ -291,12 +297,6 @@ for D2 in np.arange(0.0005,0.002,0.0005):
                         print("Iteration: ", iteration)
                         iteration += 1
 
-# iteration, D1, D2, L, W, t1, t2, n, SFPullthrough, SFflange, SFbearing, mass
-# 7075:
-# 2, 0.005, 0.002, 0.02, 0.015, 0.003, 0.01, 4, 13.528410195261317, 3.7777178942279486, 6.606302343841187, 0.011764543626288593
-# 119, 0.008, 0.001, 0.01, 0.011, 0.004, 0.011, 6, 2.911235488594805, 1.539405815253768, 1.7421118359863583, 0.007149124929120198
-# 1612, 0.005, 0.001, 0.005, 0.011, 0.0035, 0.018000000000000002, 6, 1.574339720791099, 1.503130491236036, 1.5810939740860255, 0.00525567912190013
-                        
 
 with open('Designpoints.csv', 'w', newline = '') as csvfile:
     writer = csv.writer(csvfile)
