@@ -238,6 +238,7 @@ data = [['Iteration', 'D1','D2', 'L', 'W', 't1', 't2', 'n', 'SF Pullthrough', 'S
 iteration = 1
 
 SFMAX = -1
+massmax = 100
 
 for D2 in np.arange(0.002,0.010,0.002):
     for L in np.arange(0.02,0.3,0.02):
@@ -265,16 +266,18 @@ for D2 in np.arange(0.002,0.010,0.002):
 
                         mass = MassCalc(2*D1, D1, t1, W, t2, L,n,D2, rho)
 
+                        if mass <= massmax and SFbearing >=1.50 and SFflange >= 1.50 and SFPullthrough >= 1.50:
+                            massmax = mass
+                            bestconfig = [iteration, D1, D2, L, W, t1, t2, n, SFPullthrough, SFflange, SFbearing, mass]
+
                         data.append([iteration, D1, D2, L, W, t1, t2, n, SFPullthrough, SFflange, SFbearing, mass])
                         print("Iteration: ", iteration)
                         iteration += 1
-                        if SFflange > SFMAX:
-                            SFMAX = SFflange
-                            Config = [W,D1,t1,S_ty,Ay,Az]
+                        
 
 with open('Designpoints.csv', 'w', newline = '') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerows(data)
     csvfile.close()
 
-print(Config, SFMAX)
+print(bestconfig)
