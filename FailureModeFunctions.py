@@ -181,15 +181,15 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
     return sigmamaterial / sigma
 
 
-# def Thermal(t_1, materialid, D_2, c.materials, c.bolt):
-#     sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
-#     sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
+def Thermal(t_1, materialid, D_2, c.materials, c.bolt):
+    sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
+    sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
     
-#     stupidletter = sa/(sa+sb)
+    stupidletter = sa/(sa+sb)
     
-#     stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
+    stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
     
-#     return stress
+    return stress
     
     
 
