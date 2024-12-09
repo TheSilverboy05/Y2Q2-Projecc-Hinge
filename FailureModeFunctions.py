@@ -178,7 +178,7 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
     return sigma / sigmamaterial
 
 def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
-    VolumeBP = t2*w*L - n*D2*t2
+    VolumeBP = t2*w*L - n*math.pi*((D2/2)**2)*t2
     VolumeF  = s2*w*t1 + 0.5*math.pi*((0.5*w)**2)*t1 - math.pi*((D1/2)**2)*t1
 
     Volume   = VolumeBP + 2 * VolumeF
@@ -239,12 +239,6 @@ for D2 in np.arange(0.002,0.010,0.002):
                     if negative == False:
                         max = np.max(AbsPullthrougharray)
                         SFPullthrough = Tau_max / max
-                        
-
-                    
-
-                    
-
                 
                     for t1 in np.arange(0.003,0.015,0.003):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
