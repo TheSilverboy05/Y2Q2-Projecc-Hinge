@@ -1,7 +1,7 @@
 import math
 import numpy as np
-import Configuration_I as c
-
+# import Configuration_I as c
+import csv
 #
 
 def Forces(Fx, Fy, Fz, H, W):
@@ -108,6 +108,7 @@ def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     return(ShearStressArray)
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
+    # Author: Sil
     A_br = D*t
     A_t = (W-D)*t
 
@@ -171,7 +172,7 @@ def BearingFailure(Ax, Az, My, D_2, t_2, n, d, h, t1, materialid):
     sigma = 1.2 * P / (D_2 * t_2)  # max stress experienced by the bolt
     # then compare sigma to the one of the material max strenght and see how to lighten up the hinge
 
-    sigmamaterial = c.materials[materialid].shear_strength
+    # sigmamaterial = c.materials[materialid].shear_strength
 
     return sigma / sigmamaterial
 
@@ -207,13 +208,16 @@ M_Az = Forces(Fx,Fy,Fz,0.450,0.975)[7]
 
 # Then we also need some material properties:
 Tau_max = 27 *10**(9) # Pa
+S_ty = 10
 
 # First iterate over flanges to determine s2
+
+data = [['Iteration', 'D2', 'L', 't2', 'n', 'SF Pullthrough', 'SF Flangefailure']]
 
 for D2 in np.arange(0.001,0.02,0.001):
     for L in np.arange(0.01,0.2,0.01):
         for t2 in np.arange(0.001,0.01,0.001):
-            for n in range(4,20,2):
+            for n in range(4,8,2):
                 Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 0.050, t2, L)
                 Tau_max_list = []
                 for i in range(int((n/2))):
@@ -222,9 +226,26 @@ for D2 in np.arange(0.001,0.02,0.001):
                 AbsPullthrougharray = abs(Pullthrougharray)
                 Marginsarray = Tau_max_array - AbsPullthrougharray
                 negative = np.any(Marginsarray<0)
-                if negative == True:
-                    print("Fuck this one fails goddamnit!!!")
-                else:
+                if negative == False:
                     max = np.max(AbsPullthrougharray)
-                    SF = Tau_max / max
-                    print("The safety factor is", SF)
+                    SFPullthrough = Tau_max / max
+                    
+
+                e1 = 1.5 * D2
+                e3 = 2.5 * D2
+
+                W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
+
+                for D1 in np.arange(0.060,0.080,2):
+                    for t1 in np.arange(0.001,0.010,0.001):
+                        SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
+
+
+
+                data.append([D2, L, t2, n, SFPullthrough, SFflange])
+
+with open('Designpoints.csv', 'w', newline = '') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerows(data)
+
+csvfile.close()
