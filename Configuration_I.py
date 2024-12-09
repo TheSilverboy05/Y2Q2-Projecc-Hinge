@@ -27,7 +27,7 @@ W       = 1200  * 10**(-3)      #[m]        Length of the deployed solar panel
 # Back Plate:
 t2      = 5     * 10**(-3)      #[m]        Thickness
 L       = 250   * 10**(-3)      #[m]        Lenght of the back plate
-w       = 75    * 10**(-3)      #[m]        Height of the back plate
+w       = 33    * 10**(-3)      #[m]        Height of the back plate
 D2      = 4     * 10**(-3)      #[m]        Diameter of bolts/rivets
 n       = 4                     #           Number of bolts in the back plate (total)
 e1      = 5     * 10**(-3)      #[m]        distance edge to center of a hole on the y-axis (along w dimension)
@@ -37,7 +37,7 @@ e2      = 5     * 10**(-3)      #[m]        distance edge to center of a hole on
 t1      = 3     * 10**(-3)      #[m]        Thickness of the flange
 s1      = 100   * 10**(-3)      #[m]        Length of the flange
 s2      = 70    * 10**(-3)      #[m]        Center position of the pin hole
-D1      = 70    * 10**(-3)      #[m]        Diameter of the pin hole
+D1      = 20    * 10**(-3)      #[m]        Diameter of the pin hole
 h       = 50    * 10**(-3)      #[m]        Inner dimension between two flanges
 N       = 2                     #           Number of flanges
 
