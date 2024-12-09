@@ -81,6 +81,20 @@ materials = [
     Material(3, "Aged Grade 250 Maraging Steel", 1740*10**6, 1060*10**6, 190*10**9, 10.1*10**(-6), 8200),
 ]
 
+
+
+
+class Bolt:
+    def __init__(self, id, diameter):
+        self.id = id
+        self.diameter = diameter  # in mm
+        self.density = 7.85e3  # kg/m^3 (density of steel as a placeholder)
+        self.elastic_modulus = 210e9  # Pa (Elastic modulus of steel as a placeholder)
+        self.thermal_coefficient = 12e-6  # 1/K (thermal expansion coefficient of steel)
+
+
+
+
 # Display the materials
 for material in materials:
     print(material)
