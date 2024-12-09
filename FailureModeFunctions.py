@@ -181,15 +181,15 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
     return sigmamaterial / sigma
 
 
-def Thermal(t_1, materialid, D_2, c.materials, c.bolt):
-    sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
-    sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
+# def Thermal(t_1, materialid, D_2, c.materials, c.bolt):
+#     sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
+#     sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
     
-    stupidletter = sa/(sa+sb)
+#     stupidletter = sa/(sa+sb)
     
-    stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
+#     stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
     
-    return stress
+#     return stress
     
     
 
@@ -244,14 +244,14 @@ bestconfig = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
 j = 0 # select material
 
-for D2 in np.arange(0.001,0.004,0.002):
-    for L in np.arange(0.01,0.2,0.02):
-        for t2 in np.arange(0.001,0.02,0.005):
+for D2 in np.arange(0.0005,0.002,0.0005):
+    for L in np.arange(0.005,0.2,0.005):
+        for t2 in np.arange(0.008,0.02,0.005):
             for n in range(4,10,2):
                 e1 = 1.5 * D2
                 e3 = 2.5 * D2
                 W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
-                for D1 in np.arange(0.003,W-0.001,0.005):
+                for D1 in np.arange(0.005,W-0.001,0.001): 
                     Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 2*D1, t2, L)
                     Tau_max_list = []
                     for i in range(int((n/2))):
@@ -266,7 +266,7 @@ for D2 in np.arange(0.001,0.004,0.002):
                     else: 
                         SFPullthrough = 0.1
                 
-                    for t1 in np.arange(0.001,0.005,0.0005):
+                    for t1 in np.arange(0.002,0.005,0.0005):
                         SFflange = FlangeFailure(W,D1,t1,S_ty[j],Ay,Az)
                         SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,L,n,S_ty[j])
 
@@ -283,7 +283,8 @@ for D2 in np.arange(0.001,0.004,0.002):
 # iteration, D1, D2, L, W, t1, t2, n, SFPullthrough, SFflange, SFbearing, mass
 # 7075:
 # 2, 0.005, 0.002, 0.02, 0.015, 0.003, 0.01, 4, 13.528410195261317, 3.7777178942279486, 6.606302343841187, 0.011764543626288593
-# 101, 0.003, 0.001, 0.01, 0.0075, 0.003, 0.011, 4, 4.319214833987929, 1.682467018061781, 1.7660558445093646, 0.0032330930453696376
+# 119, 0.008, 0.001, 0.01, 0.011, 0.004, 0.011, 6, 2.911235488594805, 1.539405815253768, 1.7421118359863583, 0.007149124929120198
+# 1612, 0.005, 0.001, 0.005, 0.011, 0.0035, 0.018000000000000002, 6, 1.574339720791099, 1.503130491236036, 1.5810939740860255, 0.00525567912190013
                         
 
 with open('Designpoints.csv', 'w', newline = '') as csvfile:
