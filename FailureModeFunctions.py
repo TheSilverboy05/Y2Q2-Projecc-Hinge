@@ -246,8 +246,10 @@ for D2 in np.arange(0.001,0.02,0.001):
                 W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
 
                 for D1 in np.arange(0.060,0.080,2):
-                    for t1 in np.arange(0.001,0.010,0.001):
+                    for t1 in np.arange(0.001,0.011,0.001):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
+
+                        
                         data.append([D2, L, t2, n, SFPullthrough, SFflange])
                         print("Iteration: ", iteration)
                         iteration += 1
