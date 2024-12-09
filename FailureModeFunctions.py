@@ -153,7 +153,7 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
 
 
 
-def BearingFailure(Ax, Az, My, D_2, t_2, L, n):
+def BearingFailure(Ax, Az, My, D_2, t_2, L, n, c.bolt):
     x = L/2 - 1.5*D_2
 
     if (n == 4):
