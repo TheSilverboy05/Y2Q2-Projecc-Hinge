@@ -183,6 +183,8 @@ def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
 
     mass = Volume * rho
 
+    print("VolumeBP, VolumeF, Volume, mass", VolumeBP, VolumeF, Volume, mass)
+
     return mass
 
 # fortele=Forces(c.Fx, c.Fy, c.Fz, c.H, c.W)
