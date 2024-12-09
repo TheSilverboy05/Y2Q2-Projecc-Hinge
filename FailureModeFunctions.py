@@ -37,7 +37,7 @@ def Forces(Fx, Fy, Fz, H, W):
 
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
-def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
+def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     """ This function outputs an array with shear stresses
     for every bolt in the back plate"""
     # Author: Seppe
@@ -108,8 +108,6 @@ def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     return(ShearStressArray)
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
-    F_z = abs(F_z)
-    F_y = abs(F_y)
     A_br = D*t
     A_t = (W-D)*t
 
@@ -147,13 +145,13 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
         R_a = abs(F_y)/P_y
 
     SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
-    # print("K_bry: ", K_bry, " K_ty: ", K_ty, " K_t: ", K_t, " P_ty: ", P_ty, " P_y: ", P_y, " P_bry: ", P_bry, " F_y: ", F_y, " F_z: ", F_z)
+    print("K_bry: ", K_bry, " K_ty: ", K_ty, " K_t: ", K_t, " P_ty: ", P_ty, " P_y: ", P_y, " P_bry: ", P_bry, " F_y: ", F_y, " F_z: ", F_z)
     return SF
 
 
 
 
-def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
+def BearingFailure(Ax, Az, My, D_2, t_2, L, n):
     x = L/2 - 1.5*D_2
 
     if (n == 4):
@@ -173,19 +171,34 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
     P = (F_xbolt ** 2 + F_zbolt ** 2) ** 0.5
 
     sigma = 1.2 * P / (D_2 * t_2)  # max stress experienced by the bolt
-    # then compare sigma to the one of the material max strenght and see how to lighten up the hinge  
+    # then compare sigma to the one of the material max strenght and see how to lighten up the hinge
+
+    sigmamaterial = c.bolt.shear_strength   
 
     return sigma / sigmamaterial
 
+
+def Thermal(t_1, materialid, D_2, c.materials, c.bolt)
+    sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
+    sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
+    
+    stupidletter = sa/(sa+sb)
+    
+    stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
+    
+    return stress
+    
+    
+
+
+
 def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
-    VolumeBP = t2*w*L - n*math.pi*((D2/2)**2)*t2
+    VolumeBP = t2*w*L - n*D2*t2
     VolumeF  = s2*w*t1 + 0.5*math.pi*((0.5*w)**2)*t1 - math.pi*((D1/2)**2)*t1
 
     Volume   = VolumeBP + 2 * VolumeF
 
     mass = Volume * rho
-
-    print("VolumeBP, VolumeF, Volume, mass", VolumeBP, VolumeF, Volume, mass)
 
     return mass
 
@@ -212,22 +225,31 @@ M_Az = Forces(Fx,Fy,Fz,0.450,0.975)[7]
 # Then we also need some material properties:
 Tau_max = 27 *10**(9) # Pa
 S_ty = 10
-rho = 2810
-sigmamaterial = 507.76 *10**6
+rho = 2000
+
 # First iterate over flanges to determine s2
 
 data = [['Iteration', 'D1','D2', 'L', 'W', 't1', 't2', 'n', 'SF Pullthrough', 'SF Flangefailure', 'SF Bearing', 'mass']]
 
 iteration = 1
 
+<<<<<<< HEAD
+for D2 in np.arange(0.001,0.02,0.001):
+    for L in np.arange(0.01,0.2,0.01):
+=======
 for D2 in np.arange(0.002,0.010,0.002):
     for L in np.arange(0.02,0.3,0.02):
+>>>>>>> 4bd0384f4aed0a855b5eb41df4db99c3dd4a85c4
         for t2 in np.arange(0.001,0.01,0.001):
             for n in range(4,10,2):
+<<<<<<< HEAD
+                for D1 in np.arange(0.060,0.080,2):
+=======
                 e1 = 1.5 * D2
                 e3 = 2.5 * D2
                 W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
                 for D1 in np.arange(0.005,W-0.001,0.005):
+>>>>>>> 4bd0384f4aed0a855b5eb41df4db99c3dd4a85c4
                     Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 2*D1, t2, L)
                     Tau_max_list = []
                     for i in range(int((n/2))):
@@ -239,10 +261,21 @@ for D2 in np.arange(0.002,0.010,0.002):
                     if negative == False:
                         max = np.max(AbsPullthrougharray)
                         SFPullthrough = Tau_max / max
+                        
+
+                    e1 = 1.5 * D2
+                    e3 = 2.5 * D2
+
+                    W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
+
                 
+<<<<<<< HEAD
+                    for t1 in np.arange(0.001,0.011,0.001):
+=======
                     for t1 in np.arange(0.003,0.015,0.003):
+>>>>>>> 4bd0384f4aed0a855b5eb41df4db99c3dd4a85c4
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
-                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,L,n,sigmamaterial)
+                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,n, )
 
                         mass = MassCalc(2*D1, D1, t1, W, t2, L,n,D2, rho)
 
