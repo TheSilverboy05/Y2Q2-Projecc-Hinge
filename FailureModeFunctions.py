@@ -181,15 +181,15 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
     return sigmamaterial / sigma
 
 
-# def Thermal(t_1, materialid, D_2, c.materials, c.bolt):
-#     sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
-#     sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
+def Thermal(t_1, materialid, D_2, c.materials, c.bolt):
+    sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
+    sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
     
-#     stupidletter = sa/(sa+sb)
+    stupidletter = sa/(sa+sb)
     
-#     stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
+    stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
     
-#     return stress
+    return stress
     
     
 
@@ -215,9 +215,9 @@ def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
 # LOOP FOR LUG A:
 # Author: Seppe
 # Enter general forces here: (Taken from the report)
-Fx = 215.82
-Fy = 215.82
-Fz = -686.7
+Fx = 1.953*215.82
+Fy = 1.953*215.82
+Fz = 1.953*(-686.7)
 
 # Then the forces at lug A are calculated:
 Ax = Forces(Fx,Fy,Fz,0.450,0.975)[0]
