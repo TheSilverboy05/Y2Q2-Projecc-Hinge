@@ -172,7 +172,7 @@ def BearingFailure(Ax, Az, My, D_2, t_2, n, d, h, t1, materialid):
     sigma = 1.2 * P / (D_2 * t_2)  # max stress experienced by the bolt
     # then compare sigma to the one of the material max strenght and see how to lighten up the hinge
 
-    # sigmamaterial = c.materials[materialid].shear_strength
+    sigmamaterial = c.materials[materialid].shear_strength
 
     return sigma / sigmamaterial
 
