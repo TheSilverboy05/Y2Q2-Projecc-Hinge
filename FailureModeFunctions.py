@@ -218,14 +218,14 @@ data = [['Iteration', 'D1','D2', 'L', 'W', 't1', 't2', 'n', 'SF Pullthrough', 'S
 
 iteration = 1
 
-for D2 in np.arange(0.001,0.010,0.001):
-    for L in np.arange(0.02,0.3,0.01):
+for D2 in np.arange(0.002,0.010,0.002):
+    for L in np.arange(0.02,0.3,0.02):
         for t2 in np.arange(0.001,0.01,0.001):
             for n in range(4,10,2):
                 e1 = 1.5 * D2
                 e3 = 2.5 * D2
                 W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
-                for D1 in np.arange(0.005,W-0.001,0.001):
+                for D1 in np.arange(0.005,W-0.001,0.005):
                     Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 2*D1, t2, L)
                     Tau_max_list = []
                     for i in range(int((n/2))):
@@ -244,7 +244,7 @@ for D2 in np.arange(0.001,0.010,0.001):
                     
 
                 
-                    for t1 in np.arange(0.005,0.015,0.001):
+                    for t1 in np.arange(0.003,0.015,0.003):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
                         SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,L,n,sigmamaterial)
 
