@@ -145,7 +145,7 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
         R_a = abs(F_y)/P_y
 
     SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
-    print("K_bry: ", K_bry, " K_ty: ", K_ty, " K_t: ", K_t, " P_ty: ", P_ty, " P_y: ", P_y, " P_bry: ", P_bry, " F_y: ", F_y, " F_z: ", F_z)
+    # print("K_bry: ", K_bry, " K_ty: ", K_ty, " K_t: ", K_t, " P_ty: ", P_ty, " P_y: ", P_y, " P_bry: ", P_bry, " F_y: ", F_y, " F_z: ", F_z)
     return SF
 
 
@@ -208,7 +208,7 @@ M_Az = Forces(Fx,Fy,Fz,0.450,0.975)[7]
 # Then we also need some material properties:
 Tau_max = 27 *10**(9) # Pa
 S_ty = 10
-rho = 2000
+rho = 2810
 sigmamaterial = 507.76 *10**6
 # First iterate over flanges to determine s2
 
@@ -220,7 +220,8 @@ for D2 in np.arange(0.001,0.010,0.001):
     for L in np.arange(0.01,0.3,0.01):
         for t2 in np.arange(0.001,0.01,0.001):
             for n in range(4,10,2):
-                for D1 in np.arange(0.010,0.050,2):
+                W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
+                for D1 in np.arange(0.010,W-0.001,2):
                     Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 2*D1, t2, L)
                     Tau_max_list = []
                     for i in range(int((n/2))):
@@ -237,7 +238,7 @@ for D2 in np.arange(0.001,0.010,0.001):
                     e1 = 1.5 * D2
                     e3 = 2.5 * D2
 
-                    W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
+                    
 
                 
                     for t1 in np.arange(0.001,0.011,0.001):
