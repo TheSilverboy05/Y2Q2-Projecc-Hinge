@@ -30,14 +30,14 @@ def Forces(Fx, Fy, Fz, H, W):
     M_Bz = (Fx * W)/4
     
     
-    # My = max(abs(M_Ay), abs(M_By))  
-    # Mz = max(abs(M_Az), abs(M_Bz))
-    # Fortaz = abs(Az)
-    # Fortax = abs(Ax)
+    My = max(abs(M_Ay), abs(M_By))  
+    Mz = max(abs(M_Az), abs(M_Bz))
+    Fortaz = abs(Az)
+    Fortax = abs(Ax)
 
-    return [Ax, Ay, Az, Bx, By, Bz, M_Ay, M_Az, M_By ,M_Bz] #My, Mz, Fortax, Fortaz]
+    return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
-def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
+def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     """ This function outputs an array with shear stresses
     for every bolt in the back plate"""
     # Author: Seppe
@@ -108,12 +108,6 @@ def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     return(ShearStressArray)
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
-    # Author: Sil
-    a = 0
-    if D >= W:
-        D = W - 0.01
-        a = 1
-    
     A_br = D*t
     A_t = (W-D)*t
 
@@ -129,8 +123,6 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_1 = (A_2+0.5*D-0.5*D*math.cos(math.radians(45)))*t
     A_av = 6/((4/A_1)+(2/A_2))
     K_ty = -4.72*10**(-3)+1.39*(A_av/A_br)-0.341*(A_av/A_br)**2
-
-    K_ty = 100000000
 
     # K_t, fig. D1.12 in Bruhn, only linear part otherwise out of bounds
     if W/D <= 2.9: 
@@ -152,34 +144,36 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     else:
         R_a = abs(F_y)/P_y
 
-    if a == 1:
-        SF = 0.1
-    else:
-        SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
-
+    SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
+    print("K_bry: ", K_bry, " K_ty: ", K_ty, " K_t: ", K_t, " P_ty: ", P_ty, " P_y: ", P_y, " P_bry: ", P_bry, " F_y: ", F_y, " F_z: ", F_z)
     return SF
 
-def BearingFailure(Ax, Az, My, D_2, t_2, n, d, h, t1, materialid):
-    x = h / 2 + t1 + d
 
-    if (n == 2):
-        F_xbolt = Ax / n + My / (n * x)
-        F_zbolt = Az / n
+
+
+def BearingFailure(Ax, Az, My, D_2, t_2, L, n):
+    x = L/2 - 1.5*D_2
+
     if (n == 4):
-        z = 1.5 * D_2
+        z = 1.25 * D_2
         F_xbolt = Ax / n + My / (n * x)
         F_zbolt = Az / n + My / (n * z)
     if (n == 6):
-        z = 3 * D_2
+        z = 2.5 * D_2
         F_xbolt = Ax / n + My / (n * x)
         F_zbolt = Az / n + My / ((n - 2) * z)
+        
+    if (n == 8):
+        z = 3.75 * D_2
+        F_xbolt = Ax / n + My / (n * x)
+        F_zbolt = Az / n + My / ((n - 4) * z)
 
     P = (F_xbolt ** 2 + F_zbolt ** 2) ** 0.5
 
     sigma = 1.2 * P / (D_2 * t_2)  # max stress experienced by the bolt
     # then compare sigma to the one of the material max strenght and see how to lighten up the hinge
 
-    sigmamaterial = c.materials[materialid].shear_strength
+    sigmamaterial = c.bolt.shear_strength   
 
     return sigma / sigmamaterial
 
