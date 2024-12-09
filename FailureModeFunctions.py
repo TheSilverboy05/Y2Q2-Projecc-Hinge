@@ -215,9 +215,9 @@ def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
 # LOOP FOR LUG A:
 # Author: Seppe
 # Enter general forces here: (Taken from the report)
-Fx = 215.82
-Fy = 215.82
-Fz = -686.7
+Fx = 1.953*215.82
+Fy = 1.953*215.82
+Fz = 1.953*(-686.7)
 
 # Then the forces at lug A are calculated:
 Ax = Forces(Fx,Fy,Fz,0.450,0.975)[0]
