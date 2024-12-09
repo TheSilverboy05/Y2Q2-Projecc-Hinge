@@ -37,7 +37,7 @@ def Forces(Fx, Fy, Fz, H, W):
 
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
 
-def BoltsLoad(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
+def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     """ This function outputs an array with shear stresses
     for every bolt in the back plate"""
     # Author: Seppe
@@ -173,7 +173,7 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n):
     sigma = 1.2 * P / (D_2 * t_2)  # max stress experienced by the bolt
     # then compare sigma to the one of the material max strenght and see how to lighten up the hinge
 
-    sigmamaterial = c.bolt.shear_strength   
+    sigmamaterial = c.bolt.shear_strength  
 
     return sigma / sigmamaterial
 
@@ -244,7 +244,7 @@ for D2 in np.arange(0.001,0.02,0.001):
                 
                     for t1 in np.arange(0.001,0.011,0.001):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
-                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,n, )
+                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,n)
 
                         mass = MassCalc(2*D1, D1, t1, W, t2, L,n,D2, rho)
 
