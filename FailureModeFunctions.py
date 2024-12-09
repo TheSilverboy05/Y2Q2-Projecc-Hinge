@@ -228,7 +228,7 @@ M_Az = Forces(Fx,Fy,Fz,0.450,0.975)[7]
 
 # Then we also need some material properties:
 Tau_max = 27 *10**(9) # Pa
-S_ty = 10
+S_ty = 331*10**6
 rho = 2810
 sigmamaterial = 507.76 *10**6
 # First iterate over flanges to determine s2
