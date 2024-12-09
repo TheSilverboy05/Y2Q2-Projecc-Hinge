@@ -108,6 +108,11 @@ def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     return(ShearStressArray)
 
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
+    a = 0
+    if D >= W:
+        D = W - 0.01
+        a = 1
+    
     A_br = D*t
     A_t = (W-D)*t
 
@@ -123,6 +128,8 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     A_1 = (A_2+0.5*D-0.5*D*math.cos(math.radians(45)))*t
     A_av = 6/((4/A_1)+(2/A_2))
     K_ty = -4.72*10**(-3)+1.39*(A_av/A_br)-0.341*(A_av/A_br)**2
+
+    K_ty = 100000000
 
     # K_t, fig. D1.12 in Bruhn, only linear part otherwise out of bounds
     if W/D <= 2.9: 
@@ -144,7 +151,7 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     else:
         R_a = abs(F_y)/P_y
 
-    if D > W:
+    if a == 1:
         SF = 0.1
     else:
         SF = (1/((R_a**1.6+R_tr**1.6)**0.625))-1
