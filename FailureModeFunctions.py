@@ -4,7 +4,7 @@ import Configuration_I as c
 import csv
 #
 
-def Forces(Fx, Fy, Fz, H, W):
+def Forces(Fx, Fy, Fz, H, S):
     # Author: Seppe
     """
     Returns a list [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz]
@@ -12,22 +12,22 @@ def Forces(Fx, Fy, Fz, H, W):
     Fy = Force in y-direction
     Fz = Force in z-direction
     H  = Height of the solar panel in z-direction
-    W  = length of the solar panel in y-direction
+    S  = length of the solar panel in y-direction
     """
     #Forces
     Az = -Fz/2 #why negative
     Bz = -Fz/2
     Ax = -Fx/2
     Bx = -Fx/2
-    Ay = (Fz*W-Fy*H)/(2*H)
+    Ay = -Fy/2+Fz*S/H
     By = -Fy-Ay
 
 
     # Moments
     M_Ay = -(Fx * H)/8
     M_By = (Fx * H)/8
-    M_Az = (Fx * W)/4
-    M_Bz = (Fx * W)/4
+    M_Az = (Fx * S)/2
+    M_Bz = (Fx * S)/2
     
     
     My = max(abs(M_Ay), abs(M_By))  
@@ -36,6 +36,17 @@ def Forces(Fx, Fy, Fz, H, W):
     Fortax = abs(Ax)
 
     return [Ax, Ay, Az, Bx, By, Bz, M_Ay,M_Ay, M_Az, M_Bz, My, Mz, Fortax, Fortaz]
+
+def FlangeLoads(Ax,Ay,Az,M_Ay,M_Az,h,t1):
+    Rx=-Ax
+    Ry=-Ay
+    Rz=-Az
+    My=-M_Ay
+    Mz=-M_Az
+    Px=abs(-Rx/2)
+    Py=abs(Mz/(h+t1)-Ry/2)
+    Pz=abs(My/(h+t1)-Rz/2)
+    return(Px,Py,Pz)
 
 def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
     """ This function outputs an array with shear stresses
