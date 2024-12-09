@@ -151,7 +151,7 @@ def FlangeFailure(W,D,t,S_ty,F_y,F_z):
 
 
 
-def BearingFailure(Ax, Az, My, D_2, t_2, L, n):
+def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
     x = L/2 - 1.5*D_2
 
     if (n == 4):
@@ -171,9 +171,7 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n):
     P = (F_xbolt ** 2 + F_zbolt ** 2) ** 0.5
 
     sigma = 1.2 * P / (D_2 * t_2)  # max stress experienced by the bolt
-    # then compare sigma to the one of the material max strenght and see how to lighten up the hinge
-
-    sigmamaterial = c.bolt.shear_strength  
+    # then compare sigma to the one of the material max strenght and see how to lighten up the hinge  
 
     return sigma / sigmamaterial
 
@@ -244,7 +242,7 @@ for D2 in np.arange(0.001,0.02,0.001):
                 
                     for t1 in np.arange(0.001,0.011,0.001):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
-                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,n)
+                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,n,c.bolt.shear_strength)
 
                         mass = MassCalc(2*D1, D1, t1, W, t2, L,n,D2, rho)
 
