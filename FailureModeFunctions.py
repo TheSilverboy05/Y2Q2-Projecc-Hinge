@@ -239,10 +239,11 @@ iteration = 1
 
 SFMAX = -1
 massmax = 100
+bestconfig = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
 for D2 in np.arange(0.002,0.010,0.002):
     for L in np.arange(0.02,0.3,0.02):
-        for t2 in np.arange(0.001,0.01,0.001):
+        for t2 in np.arange(0.01,0.05,0.005):
             for n in range(4,10,2):
                 e1 = 1.5 * D2
                 e3 = 2.5 * D2
