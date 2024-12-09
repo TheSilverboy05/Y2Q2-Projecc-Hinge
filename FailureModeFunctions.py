@@ -1,6 +1,6 @@
 import math
 import numpy as np
-# import Configuration_I as c
+import Configuration_I as c
 import csv
 #
 
@@ -200,10 +200,10 @@ def MassCalc(s2, D1, t1, w, t2, L, n, D2, rho):
 
 # LOOP FOR LUG A:
 # Author: Seppe
-# Enter general forces here:
-Fx = 100
-Fy = 100
-Fz = 10000
+# Enter general forces here: (Taken from the report)
+Fx = 215.82
+Fy = 215.82
+Fz = -686.7
 
 # Then the forces at lug A are calculated:
 Ax = Forces(Fx,Fy,Fz,0.450,0.975)[0]
@@ -216,41 +216,45 @@ M_Az = Forces(Fx,Fy,Fz,0.450,0.975)[7]
 # Then we also need some material properties:
 Tau_max = 27 *10**(9) # Pa
 S_ty = 10
+rho = 2000
 
 # First iterate over flanges to determine s2
 
-data = [['Iteration', 'D2', 'L', 't2', 'n', 'SF Pullthrough', 'SF Flangefailure']]
+data = [['Iteration', 'D1','D2', 'L', 'W', 't1', 't2', 'n', 'SF Pullthrough', 'SF Flangefailure', 'SF Bearing', 'mass']]
 
 iteration = 1
 
 for D2 in np.arange(0.001,0.02,0.001):
     for L in np.arange(0.01,0.2,0.01):
         for t2 in np.arange(0.001,0.01,0.001):
-            for n in range(4,8,2):
-                Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 0.050, t2, L)
-                Tau_max_list = []
-                for i in range(int((n/2))):
-                    Tau_max_list.append([Tau_max, Tau_max])
-                Tau_max_array = np.array(Tau_max_list)
-                AbsPullthrougharray = abs(Pullthrougharray)
-                Marginsarray = Tau_max_array - AbsPullthrougharray
-                negative = np.any(Marginsarray<0)
-                if negative == False:
-                    max = np.max(AbsPullthrougharray)
-                    SFPullthrough = Tau_max / max
-                    
-
-                e1 = 1.5 * D2
-                e3 = 2.5 * D2
-
-                W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
-
+            for n in range(4,10,2):
                 for D1 in np.arange(0.060,0.080,2):
+                    Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 2*D1, t2, L)
+                    Tau_max_list = []
+                    for i in range(int((n/2))):
+                        Tau_max_list.append([Tau_max, Tau_max])
+                    Tau_max_array = np.array(Tau_max_list)
+                    AbsPullthrougharray = abs(Pullthrougharray)
+                    Marginsarray = Tau_max_array - AbsPullthrougharray
+                    negative = np.any(Marginsarray<0)
+                    if negative == False:
+                        max = np.max(AbsPullthrougharray)
+                        SFPullthrough = Tau_max / max
+                        
+
+                    e1 = 1.5 * D2
+                    e3 = 2.5 * D2
+
+                    W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
+
+                
                     for t1 in np.arange(0.001,0.011,0.001):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
+                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,n, )
 
-                        
-                        data.append([D2, L, t2, n, SFPullthrough, SFflange])
+                        mass = MassCalc(2*D1, D1, t1, W, t2, L,n,D2, rho)
+
+                        data.append([iteration, D1, D2, L, W, t1, t2, n, SFPullthrough, SFflange, SFbearing, mass])
                         print("Iteration: ", iteration)
                         iteration += 1
 
