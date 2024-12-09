@@ -216,7 +216,7 @@ data = [['Iteration', 'D1','D2', 'L', 'W', 't1', 't2', 'n', 'SF Pullthrough', 'S
 
 iteration = 1
 
-for D2 in np.arange(0.001,0.001,0.001):
+for D2 in np.arange(0.001,0.010,0.001):
     for L in np.arange(0.01,0.3,0.01):
         for t2 in np.arange(0.001,0.01,0.001):
             for n in range(4,10,2):
