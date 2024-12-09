@@ -220,6 +220,8 @@ for D2 in np.arange(0.001,0.010,0.001):
     for L in np.arange(0.01,0.3,0.01):
         for t2 in np.arange(0.001,0.01,0.001):
             for n in range(4,10,2):
+                e1 = 1.5 * D2
+                e3 = 2.5 * D2
                 W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
                 for D1 in np.arange(0.010,W-0.001,2):
                     Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 2*D1, t2, L)
@@ -235,8 +237,7 @@ for D2 in np.arange(0.001,0.010,0.001):
                         SFPullthrough = Tau_max / max
                         
 
-                    e1 = 1.5 * D2
-                    e3 = 2.5 * D2
+                    
 
                     
 
