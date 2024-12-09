@@ -239,12 +239,7 @@ for D2 in np.arange(0.001,0.02,0.001):
                 for D1 in np.arange(0.060,0.080,2):
                     for t1 in np.arange(0.001,0.010,0.001):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
-                
-                
-
-
-
-                data.append([D2, L, t2, n, SFPullthrough, SFflange])
+                        data.append([D2, L, t2, n, SFPullthrough, SFflange])
 
 with open('Designpoints.csv', 'w', newline = '') as csvfile:
     writer = csv.writer(csvfile)
