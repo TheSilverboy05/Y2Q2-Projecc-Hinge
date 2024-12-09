@@ -89,10 +89,10 @@ class Bolt:
         #self.id = id
         #self.diameter = diameter  # in mm
         self.density = 4430  # kg/m^3 (density of steel as a placeholder)
-        self.elastic_modulus = 113.8e9  # Pa (Elastic modulus of steel as a placeholder)
-        self.thermal_coefficient = 8.6e-6  # 1/K (thermal expansion coefficient of steel)
-        self.shear_strength = 507.76e6
-        self.tensile_strength = 880e6
+        self.elastic_modulus = 113.8 * 10**9 # Pa (Elastic modulus of steel as a placeholder)
+        self.thermal_coefficient = 8.6 *10**(-6) # 1/K (thermal expansion coefficient of steel)
+        self.shear_strength = 507.76 *10**6
+        self.tensile_strength = 880 * 10**6
         
 bolt = Bolt()
 
