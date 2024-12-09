@@ -85,18 +85,22 @@ materials = [
 
 
 class Bolt:
-    def __init__(self, id, diameter):
-        self.id = id
-        self.diameter = diameter  # in mm
-        self.density = 7.85e3  # kg/m^3 (density of steel as a placeholder)
-        self.elastic_modulus = 210e9  # Pa (Elastic modulus of steel as a placeholder)
-        self.thermal_coefficient = 12e-6  # 1/K (thermal expansion coefficient of steel)
+    def __init__(self):
+        #self.id = id
+        #self.diameter = diameter  # in mm
+        self.density = 4430  # kg/m^3 (density of steel as a placeholder)
+        self.elastic_modulus = 113.8e9  # Pa (Elastic modulus of steel as a placeholder)
+        self.thermal_coefficient = 8.6e-6  # 1/K (thermal expansion coefficient of steel)
+        self.shear_strength = 507.76e6
+        self.tensile_strength = 880e6
+        
+bolt = Bolt()
 
 
 
 
-# Display the materials
-for material in materials:
-    print(material)
-    
-print(materials[0].shear_strength) #test test use this if you need any feature
+ #   # Display the materials
+ #   for material in materials:
+  #      print(material)
+   #     
+  #  print(materials[0].shear_strength) #test test use this if you need any feature
