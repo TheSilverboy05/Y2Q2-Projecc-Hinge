@@ -110,6 +110,8 @@ def Pullthrough(Fx,Fy,Fz,Mz,n,D2,e1,e2,e3,s2,t2,L):
 def FlangeFailure(W,D,t,S_ty,F_y,F_z):
     F_z = abs(F_z)
     F_y = abs(F_y)
+    F_z = abs(F_z)
+    F_y = abs(F_y)
     A_br = D*t
     A_t = (W-D)*t
 
