@@ -221,6 +221,8 @@ S_ty = 10
 
 data = [['Iteration', 'D2', 'L', 't2', 'n', 'SF Pullthrough', 'SF Flangefailure']]
 
+iteration = 1
+
 for D2 in np.arange(0.001,0.02,0.001):
     for L in np.arange(0.01,0.2,0.01):
         for t2 in np.arange(0.001,0.01,0.001):
@@ -247,6 +249,8 @@ for D2 in np.arange(0.001,0.02,0.001):
                     for t1 in np.arange(0.001,0.010,0.001):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
                         data.append([D2, L, t2, n, SFPullthrough, SFflange])
+                        print("Iteration: ", iteration)
+                        iteration += 1
 
 with open('Designpoints.csv', 'w', newline = '') as csvfile:
     writer = csv.writer(csvfile)
