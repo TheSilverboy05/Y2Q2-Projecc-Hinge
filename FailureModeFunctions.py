@@ -180,15 +180,15 @@ def BearingFailure(Ax, Az, My, D_2, t_2, L, n, sigmamaterial):
     return sigma / sigmamaterial
 
 
-def Thermal(t_1, materialid, D_2, c.materials, c.bolt)
-    sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
-    sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
+# def Thermal(t_1, materialid, D_2, c.materials, c.bolt):
+#     sa = 4* t_1 /(c.materials[materialid].elastic_modulus*3.14*1.5*D_2**2)
+#     sb = 1/ c.bolt.elastic_modulus * 4* t_1 /(3.14* D_2**2/4)
     
-    stupidletter = sa/(sa+sb)
+#     stupidletter = sa/(sa+sb)
     
-    stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
+#     stress = (c.materials[materialid].thermal_coef- c.bolt.thermal_coef)*250 * c.bolt.elastic_modulus *3.14 * D_2**2/4 * (1-stupidletter)
     
-    return stress
+#     return stress
     
     
 
@@ -237,6 +237,8 @@ data = [['Iteration', 'D1','D2', 'L', 'W', 't1', 't2', 'n', 'SF Pullthrough', 'S
 
 iteration = 1
 
+SFMAX = -1
+
 for D2 in np.arange(0.002,0.010,0.002):
     for L in np.arange(0.02,0.3,0.02):
         for t2 in np.arange(0.001,0.01,0.001):
@@ -257,7 +259,7 @@ for D2 in np.arange(0.002,0.010,0.002):
                         max = np.max(AbsPullthrougharray)
                         SFPullthrough = Tau_max / max
                 
-                    for t1 in np.arange(0.001,0.001,0.001):
+                    for t1 in np.arange(0.001,0.01,0.002):
                         SFflange = FlangeFailure(W,D1,t1,S_ty,Ay,Az)
                         SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,L,n,sigmamaterial)
 
@@ -266,8 +268,13 @@ for D2 in np.arange(0.002,0.010,0.002):
                         data.append([iteration, D1, D2, L, W, t1, t2, n, SFPullthrough, SFflange, SFbearing, mass])
                         print("Iteration: ", iteration)
                         iteration += 1
+                        if SFflange > SFMAX:
+                            SFMAX = SFflange
+                            Config = [W,D1,t1,S_ty,Ay,Az]
 
 with open('Designpoints.csv', 'w', newline = '') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerows(data)
     csvfile.close()
+
+print(Config, SFMAX)
