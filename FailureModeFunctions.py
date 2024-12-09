@@ -228,10 +228,10 @@ M_Ay = Forces(Fx,Fy,Fz,0.450,0.975)[6]
 M_Az = Forces(Fx,Fy,Fz,0.450,0.975)[7]
 
 # Then we also need some material properties:
-Tau_max = 27 *10**(9) # Pa
-S_ty = 331*10**6
-rho = 2810
-sigmamaterial = 507.76 *10**6
+Material = ["7075-T6", "2014-T6", "SEA-aAISI 4340", "aged grade 250 maraging steel"]
+Tau_max = [331*10**6, 290*10**6, 200*10**9, 1060*10**6]
+S_ty = [483*10**6, 400*10**6, 470*10**6, 1740*10**6]
+rho = [2810, 2800, 7800, 8200]
 # First iterate over flanges to determine s2
 
 data = [['Iteration', 'D1','D2', 'L', 'W', 't1', 't2', 'n', 'SF Pullthrough', 'SF Flangefailure', 'SF Bearing', 'mass']]
@@ -242,31 +242,35 @@ SFMAX = -1
 massmax = 100
 bestconfig = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
-for D2 in np.arange(0.002,0.010,0.002):
-    for L in np.arange(0.02,0.3,0.02):
-        for t2 in np.arange(0.01,0.05,0.005):
+j = 0 # select material
+
+for D2 in np.arange(0.001,0.004,0.002):
+    for L in np.arange(0.01,0.2,0.02):
+        for t2 in np.arange(0.001,0.02,0.005):
             for n in range(4,10,2):
                 e1 = 1.5 * D2
                 e3 = 2.5 * D2
                 W = 2* e1 + (n/2)*D2 + ((n/2)-1)* e3
-                for D1 in np.arange(0.005,W-0.001,0.005):
+                for D1 in np.arange(0.003,W-0.001,0.005):
                     Pullthrougharray = Pullthrough(Ax, Ay, Az, M_Az, n, D2, 1.5*D2, 1.5*D2, 2.5*D2, 2*D1, t2, L)
                     Tau_max_list = []
                     for i in range(int((n/2))):
-                        Tau_max_list.append([Tau_max, Tau_max])
+                        Tau_max_list.append([Tau_max[j], Tau_max[j]])
                     Tau_max_array = np.array(Tau_max_list)
                     AbsPullthrougharray = abs(Pullthrougharray)
                     Marginsarray = Tau_max_array - AbsPullthrougharray
                     negative = np.any(Marginsarray<0)
                     if negative == False:
                         max = np.max(AbsPullthrougharray)
-                        SFPullthrough = Tau_max / max
+                        SFPullthrough = Tau_max[j] / max
+                    else: 
+                        SFPullthrough = 0.1
                 
-                    for t1 in np.arange(0.001,0.01,0.002):
-                        SFflange = FlangeFailure(W,D1,t1,S_ty,Ay,Az)
-                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,L,n,sigmamaterial)
+                    for t1 in np.arange(0.001,0.005,0.0005):
+                        SFflange = FlangeFailure(W,D1,t1,S_ty[j],Ay,Az)
+                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,L,n,S_ty[j])
 
-                        mass = MassCalc(2*D1, D1, t1, W, t2, L,n,D2, rho)
+                        mass = MassCalc(2*D1, D1, t1, W, t2, L,n,D2, rho[j])
 
                         if mass <= massmax and SFbearing >=1.50 and SFflange >= 1.50 and SFPullthrough >= 1.50:
                             massmax = mass
@@ -275,6 +279,11 @@ for D2 in np.arange(0.002,0.010,0.002):
                         data.append([iteration, D1, D2, L, W, t1, t2, n, SFPullthrough, SFflange, SFbearing, mass])
                         print("Iteration: ", iteration)
                         iteration += 1
+
+# iteration, D1, D2, L, W, t1, t2, n, SFPullthrough, SFflange, SFbearing, mass
+# 7075:
+# 2, 0.005, 0.002, 0.02, 0.015, 0.003, 0.01, 4, 13.528410195261317, 3.7777178942279486, 6.606302343841187, 0.011764543626288593
+# 101, 0.003, 0.001, 0.01, 0.0075, 0.003, 0.011, 4, 4.319214833987929, 1.682467018061781, 1.7660558445093646, 0.0032330930453696376
                         
 
 with open('Designpoints.csv', 'w', newline = '') as csvfile:
