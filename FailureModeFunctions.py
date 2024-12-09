@@ -255,5 +255,4 @@ for D2 in np.arange(0.001,0.02,0.001):
 with open('Designpoints.csv', 'w', newline = '') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerows(data)
-
-csvfile.close()
+    csvfile.close()
