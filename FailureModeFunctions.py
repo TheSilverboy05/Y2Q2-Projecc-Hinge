@@ -242,7 +242,7 @@ for D2 in np.arange(0.001,0.02,0.001):
                 
                     for t1 in np.arange(0.001,0.011,0.001):
                         SFflange = FlangeFailure(W,D1,t1,S_ty, Ay, Az)
-                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,n,sigmamaterial)
+                        SFbearing = BearingFailure(Ax,Az,M_Ay,D2,t2,L,n,sigmamaterial)
 
                         mass = MassCalc(2*D1, D1, t1, W, t2, L,n,D2, rho)
 
